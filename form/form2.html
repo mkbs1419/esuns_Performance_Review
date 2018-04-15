@@ -95,20 +95,20 @@
       <div class="col-lg-12 text-center">
         <h1 class="mt-4">宗陽工程股份有限公司</h1>
         <h3>專案執行績效考核</h3>
-        <h4>{第一季度(Q1:106.12~107.03)}</h4>
+        <h4 id="quarter">{quarter}</h4>
         <h4>工程師（含主任）考核</h4>
       </div>
     </div>
     <!-- info block -->
     <div class="row">
       <div class="col-lg-6">
-        <h4>考核人：{fillingPerson}</h4>
+        <h4 id="fillingPerson">考核人：{fillingPerson}</h4>
         <!-- <ul class="list-unstyled">
           <li>考核人：{fillingPerson}</li>
         </ul> -->
       </div>
       <div class="col-lg-6">
-        <h4>填表日期：{fillingDate}</h4>
+        <h4 id="fillingDate">填表日期：{fillingDate}</h4>
         <!-- <ul class="list-unstyled">
           <li>填表日期：{fillingDate}</li>
         </ul> -->
@@ -146,30 +146,31 @@
                 </tr>
               </thead>
 
-              <tbody>
+              <tbody id="here_tbody">
+<!------------------------------------ -------------------------------->
                 <tr>
                   <td>{test_name}</td>
                   <td>{test_order}</td>
                   <td>
-                    <input type="radio" name="radio_s1_1" id="s1_1">
+                    <input type="radio" name="radio_s1" id="s1_1">
                     <label class="radioBtnLabel" for="s1_1">1</label>
-                    <input type="radio" name="radio_s1_2" id="s1_2">
+                    <input type="radio" name="radio_s1" id="s1_2">
                     <label class="radioBtnLabel" for="s1_2">2</label>
-                    <input type="radio" name="radio_s1_3" id="s1_3">
+                    <input type="radio" name="radio_s1" id="s1_3">
                     <label class="radioBtnLabel" for="s1_3">3</label>
-                    <input type="radio" name="radio_s1_4" id="s1_4">
+                    <input type="radio" name="radio_s1" id="s1_4">
                     <label class="radioBtnLabel" for="s1_4">4</label>
-                    <input type="radio" name="radio_s1_5" id="s1_5">
+                    <input type="radio" name="radio_s1" id="s1_5">
                     <label class="radioBtnLabel" for="s1_5">5</label>
-                    <input type="radio" name="radio_s1_6" id="s1_6">
+                    <input type="radio" name="radio_s1" id="s1_6">
                     <label class="radioBtnLabel" for="s1_6">6</label>
-                    <input type="radio" name="radio_s1_7" id="s1_7">
+                    <input type="radio" name="radio_s1" id="s1_7">
                     <label class="radioBtnLabel" for="s1_7">7</label>
-                    <input type="radio" name="radio_s1_8" id="s1_8">
+                    <input type="radio" name="radio_s1" id="s1_8">
                     <label class="radioBtnLabel" for="s1_8">8</label>
-                    <input type="radio" name="radio_s1_9" id="s1_9">
+                    <input type="radio" name="radio_s1" id="s1_9">
                     <label class="radioBtnLabel" for="s1_9">9</label>
-                    <input type="radio" name="radio_s1_10" id="s1_10">
+                    <input type="radio" name="radio_s1" id="s1_10">
                     <label class="radioBtnLabel" for="s1_10">10</label>
                   </td>
                 </tr>
@@ -186,6 +187,9 @@
                   <td>{test_socre}</td>
                 </tr>
               </tbody>
+
+
+              
             </table>
           </div>
         </div>
@@ -447,14 +451,15 @@
   <!-- Bootstrap core JavaScript -->
   <script src="../vendor/jquery/jquery.min.js"></script>
   <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="form2.js"></script>
 
 </body>
 
 
-<script>
+<!-- <script>
   $(document).ready(function () {
     $('[data-toggle="popover"]').popover();
   });
-</script>
+</script> -->
 
 </html>
