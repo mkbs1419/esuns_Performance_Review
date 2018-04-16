@@ -2,8 +2,8 @@
   "quarter": "第一季度(Q1:106.12~107.03)",
   "fillingPerson": "評核人員X",
   "testGroup": [
-    ["群組1", false],
-    ["群組2", true]
+    ["群組1", "testgroup1", false],
+    ["群組2", "testgroup2", true]
     ],
   "testList": [
     {

@@ -1,5 +1,6 @@
 $(document).ready(function () {
     $.get('data.txt', function (dataJson) {
+        console.log("Input Data:");
         console.log(dataJson);
 
         let form1ToDo = 0;
@@ -25,15 +26,14 @@ $(document).ready(function () {
             }
         }
 
-        // // select form2
-        // for (let i = 0; i < dataJson.testList.length; i++) {
-        //     console.log( dataJson );
-        //     if (dataJson.testList[i].formStatus[0]) {
-        //         $('#inlineForm2Select').append($('<option>').text(dataJson.testList[i].employeeName + "(已完成)").attr("value", dataJson.testList[i].employeeId));
-        //     } else {
-        //         $('#inlineForm2Select').append($('<option>').text(dataJson.testList[i].employeeName).attr("value", dataJson.testList[i].employeeId));
-        //     }
-        // }
+        // select form2
+        for (let i = 0; i < dataJson.testGroup.length; i++) {
+            if (dataJson.testGroup[i][2]) {
+                $('#inlineForm2Select').append($('<option>').text(dataJson.testGroup[i][0] + "(已完成)").attr("value", dataJson.testGroup[i][1]));
+            } else {
+                $('#inlineForm2Select').append($('<option>').text(dataJson.testGroup[i][0]).attr("value", dataJson.testGroup[i][1]));
+            }
+        }
 
 
 
@@ -56,7 +56,7 @@ $(document).ready(function () {
         console.log(selected);
         if (selected !== "請選擇...") {
             $('#inlineForm2Select').removeClass('is-invalid');
-            window.open('http://localhost/PR/form/form2.html?id=' + selected);
+            window.open('http://localhost/PR/form/form2.html?groupid=' + selected);
         } else {
             // select show red
             $('#inlineForm2Select').addClass('is-invalid');
