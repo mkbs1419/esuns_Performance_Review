@@ -1,75 +1,129 @@
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
 
-  <head>
+<head>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Jerry Nie">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Jerry Nie">
 
-    <title>Index | Esuns Performance Review</title>
+  <title>Index | Esuns Performance Review</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <style>
+  <!-- Custom styles for this template -->
+  <style>
+    body {
+      padding-top: 54px;
+    }
+
+    @media (min-width: 992px) {
       body {
-        padding-top: 54px;
+        padding-top: 56px;
       }
-      @media (min-width: 992px) {
-        body {
-          padding-top: 56px;
-        }
-      }
+    }
+  </style>
 
-    </style>
+</head>
 
-  </head>
+<body>
 
-  <body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Esuns Performance Review</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Help</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-      <div class="container">
-        <a class="navbar-brand" href="#">Esuns Performance Review</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Help</a>
-            </li>
-          </ul>
+  <!-- Page Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="mt-5">考核登錄系統</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 mt-4">
+        <div class="card">
+          <h5 class="card-header">一般員工考績表</h5>
+          <div class="card-body">
+            <h5 class="card-title">完成統計：</h5>
+            <p class="card-text" id="form1ToDo">待完成：{form1ToDo}</p>
+            <p class="card-text" id="form1Done">已完成：{form1Done}</p>
+            <form>
+              <div class="form-row align-items-center">
+                <div class="col-auto my-1">
+                  <label class="mr-sm-2" for="inlineForm1Select">人員選擇</label>
+                </div>
+                <div class="col-auto my-1">
+                  <select class="custom-select mr-sm-2" id="inlineForm1Select">
+                    <option selected>請選擇...</option>
+                  </select>
+                  <div class="invalid-feedback">未選擇人員</div>
+                </div>
+                <div class="col-auto my-1">
+                  <button type="submit" class="btn btn-primary" id="form1Go">開始登錄</button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </nav>
-
-    <!-- Page Content -->
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12"> <!-- text-center -->
-          <h1 class="mt-5">A Bootstrap 4 Starter Template</h1>
-          <p class="lead">Complete with pre-defined file paths and responsive navigation!</p>
-          <ul class="list-unstyled">
-            <li>Bootstrap 4.0.0</li>
-            <li>jQuery 3.3.0</li>
-          </ul>
+      <div class="col-sm-6 mt-4">
+        <div class="card">
+          <h5 class="card-header">專案執行績效考核</h5>
+          <div class="card-body">
+            <h5 class="card-title">完成狀態：</h5>
+            <ul class="list-unstyled">
+              <li>群組1：已完成</li>
+              <li>群組2：已完成</li>
+              <li>群組3：未完成</li>
+            </ul>
+            <form>
+              <div class="form-row align-items-center">
+                <div class="col-auto my-1">
+                  <label class="mr-sm-2" for="inlineForm2Select">群組選擇</label>
+                </div>
+                <div class="col-auto my-1">
+                  <select class="custom-select mr-sm-2" id="inlineForm2Select">
+                    <option selected>請選擇...</option>
+                  </select>
+                  <div class="invalid-feedback">未選擇群組</div>
+                </div>
+                <div class="col-auto my-1">
+                  <button type="submit" class="btn btn-primary" id="form2Go">開始登錄</button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="index.js"></script>
 
-  </body>
+</body>
 
 </html>

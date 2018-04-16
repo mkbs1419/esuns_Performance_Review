@@ -3,7 +3,7 @@ $(document).ready(function () {
         "quarter": "第一季度(Q1:106.12~107.03)",
         "fillingPerson": "測試人員A",
         "fillingDate": "2018/04/16",
-        "testList": ["AAA", "BBB", "CCC", "DDD"]
+        "testList": ["受評人員A",  "受評人員B",  "受評人員C",  "受評人員D"]
     };
     var testListLength = testProfileData.testList.length;
 
