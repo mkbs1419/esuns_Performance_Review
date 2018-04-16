@@ -3,8 +3,9 @@ $(document).ready(function () {
         "quarter": "第一季度(Q1:106.12~107.03)",
         "fillingPerson": "測試人員A",
         "fillingDate": "2018/04/16",
-        "test_list": ["AAA", "BBB", "CCC"]
+        "testList": ["AAA", "BBB", "CCC", "DDD"]
     };
+    var testListLength = testProfileData.testList.length;
 
     $("#quarter").text(testProfileData.quarter);
     $("#fillingPerson").text("考核人：" + testProfileData.fillingPerson);
@@ -12,53 +13,88 @@ $(document).ready(function () {
 
 
     // table 1
-    var tr = $('<tr>')
-    .append( $('<td>').text( testProfileData.test_list[0] ) )
-    .append( $('<td>').text( "test_order" ) )
-    .append( $('<td>').text( testProfileData.test_list[0] ) )
+    for ( i=0; i<testListLength; i++ ){
+        var tr = $('<tr>')
+        .append( $('<td>').text( testProfileData.testList[i] ) )
+        .append( $('<td>').html( orderrow( 1, i ) ) )
+        .append( $('<td>').html( scorerow( 1, i ) ) )
+        $('#q1_tbody').append(tr);
+    }
 
+    // table 2
+    for ( i=0; i<testListLength; i++ ){
+        var tr = $('<tr>')
+        .append( $('<td>').text( testProfileData.testList[i] ) )
+        .append( $('<td>').html( orderrow( 2, i ) ) )
+        .append( $('<td>').html( scorerow( 2, i ) ) )
+        $('#q2_tbody').append(tr);
+    }
 
-    
+    // table 3
+    for ( i=0; i<testListLength; i++ ){
+        var tr = $('<tr>')
+        .append( $('<td>').text( testProfileData.testList[i] ) )
+        .append( $('<td>').html( orderrow( 3, i ) ) )
+        .append( $('<td>').html( scorerow( 3, i ) ) )
+        $('#q3_tbody').append(tr);
+    }
 
-        // .addClass('table table-bordered table-hover tablestyle')
-        // .html("<thead><tr><th>考核人員</th><th>表現排序</th><th>表現拙劣← 表現優異程度 →表現優異</th></tr></thead>")
-        
-        
-        
-        
-        
-        // for( i=0; i<testProfileData.test_list.length; i++){
-            // var row = $('<td>').text(testProfileData.test_list[i])
+    // table 4
+    for ( i=0; i<testListLength; i++ ){
+        var tr = $('<tr>')
+        .append( $('<td>').text( testProfileData.testList[i] ) )
+        .append( $('<td>').html( orderrow( 4, i ) ) )
+        .append( $('<td>').html( scorerow( 4, i ) ) )
+        $('#q4_tbody').append(tr);
+    }
 
-            // table1.append(row);
-        // }
-
-
-
-
-    // var table = $('<table>').addClass('foo');
-    // for(i=0; i<3; i++){
-    //     var row = $('<tr>').addClass('bar').text('result ' + i);
-    //     table.append(row);
-    // }
-
-    // $('#here_table').append(table);
-
-    $('#here_tbody').append(tr);
-
+    // table 5
+    for ( i=0; i<testListLength; i++ ){
+        var tr = $('<tr>')
+        .append( $('<td>').text( testProfileData.testList[i] ) )
+        .append( $('<td>').html( orderrow( 5, i ) ) )
+        .append( $('<td>').html( scorerow( 5, i ) ) )
+        $('#q5_tbody').append(tr);
+    }
 
 
     $('[data-toggle="popover"]').popover();
 
-    console.log("OK");
-    console.log(testProfileData);
+    // console.log(testProfileData);
 
 
+    function orderrow( question_index, person_index ){
+        let id = "select_q" + question_index + "_p" + person_index;
+        let orderrow = "<select class=\"form-control\" id=" + id + ">";
+        let pin = "";
 
+        for ( order_i=0; order_i<testListLength+1; order_i++ ){
+            if (order_i == 0){
+                pin = "<option>--請選擇--</option>";
+            } else if (order_i == 1){
+                pin = "<option>" + order_i + "(表現拙劣)</option>";
+            } else if (order_i == testListLength){
+                pin = "<option>" + order_i + "(表現優異)</option>";
+            } else {
+                pin = "<option>" + order_i + "</option>";
+            }
+            orderrow = orderrow + pin;
+        }
+        orderrow = orderrow + "</select>";
+        return orderrow;
+    };
 
+    
 
-    function makerow(){
-
-    }
+    function scorerow( question_index, person_index ){
+        let scorerow = "";
+        let name = "radio_q" + question_index + "_p" + person_index;
+        for ( score_i=1; score_i<11; score_i++ ){
+            let id = "q" + question_index + "_p" + person_index + "_" + score_i;
+            let pin = "<input type=\"radio\" name=" + name + " id=" + id + "><label class=\"radioBtnLabel\" for=" + id + ">" + score_i + "</label>"
+            scorerow = scorerow + pin
+        }
+        return scorerow;
+    };
 
 });
