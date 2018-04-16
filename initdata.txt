@@ -3,7 +3,7 @@
   "fillingPerson": "評核人員X",
   "testGroup": [
     ["群組1", false],
-    ["群組2", true],
+    ["群組2", true]
     ],
   "testList": [
     {

@@ -37,8 +37,6 @@ $(document).ready(function () {
 
 
 
-
-
     }, "json");
 
     $('#form1Go').click(function () {
