@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var submitCheck = false;
+    var profile = {};
 
     function getQueryVariable(variable) {
         var query = window.location.search.substring(1);
@@ -12,55 +12,44 @@ $(document).ready(function () {
         }
         return (false);
     }
-    function getKeyByValue(object, value) {
-        return Object.keys(object).find(key => object[key] === value);
-      }
 
-    $.get('../data.txt', function (dataJson) {
-        console.log("Input Data: dataJson");
-        console.log(dataJson);
+    // function getKeyByValue(object, value) {
+    //     return Object.keys(object).find(key => object[key] === value);
+    // }
 
-        //parse link
-        var id = getQueryVariable("id");
-        var profile = {};
-        for (let i=0; i<dataJson.testList.length; i++) {
-            if (dataJson.testList[i].employeeId === id) {
-                profile = dataJson.testList[i].employeeId
-            }
+    //讀取data
+    var dataJson = checkLocalSave();
+    var id = getQueryVariable("id");
+    for (let i = 0; i < dataJson.testList.length; i++) {
+        if (dataJson.testList[i].employeeId == id) {
+            var profile = dataJson.testList[i]
         }
-        console.log( profile );
+    }
+    console.log(profile);
+    // value="2013-01-08"
 
-        // $("#employeeGroup").text("事業群：" + dataJson.employeeGroup);
-        // $("#employeeDepartment").text("部門別：" + dataJson.employeeDepartment);
-        // $("#employeeName").text("姓名：" + dataJson.employeeName);
-        // $("#employeeLevel").text("職等職級：" + dataJson.employeeLevel);
-        // $("#reviewDate").text("考核日期：" + dataJson.reviewDate);
-        // $("#arriveDate").text("到職日期：" + dataJson.arriveDate);
-        // $("#regularDate").text("轉正日期：" + dataJson.regularDate);
+    $("#employeeGroup").text("事業群：" + profile.employeeGroup);
+    $("#employeeDepartment").text("部門別：" + profile.employeeDepartment);
+    $("#employeeName").text("姓名：" + profile.employeeName);
+    $("#employeeLevel").text("職等職級：" + profile.employeeLevel);
+    // $("#reviewDate").text("考核日期：" + profile.reviewDate);
+    $("#arriveDate").text("到職日期：" + profile.arriveDate);
+    $("#regularDate").text("轉正日期：" + profile.regularDate);
 
-    }, "json");
+    if (!(profile.reviewDate.length < 10)) {
+        console.log(profile.reviewDate);
+        $("#reviewDate").val(profile.reviewDate);
+    }
 
-    // var testProfileData = {
-    //     "employeeGroup": "宗陽",
-    //     "employeeDepartment": "工程事業群",
-    //     "employeeName": "受評人員A",
-    //     "employeeLevel": "1",
-    //     "reviewDate": "2017/08/01",
-    //     "arriveDate": "2017/01/01",
-    //     "regularDate": "2017/03/01"
-    // };
-    // $("#employeeGroup").text("事業群：" + testProfileData.employeeGroup);
-    // $("#employeeDepartment").text("部門別：" + testProfileData.employeeDepartment);
-    // $("#employeeName").text("姓名：" + testProfileData.employeeName);
-    // $("#employeeLevel").text("職等職級：" + testProfileData.employeeLevel);
-    // $("#reviewDate").text("考核日期：" + testProfileData.reviewDate);
-    // $("#arriveDate").text("到職日期：" + testProfileData.arriveDate);
-    // $("#regularDate").text("轉正日期：" + testProfileData.regularDate);
 
 
     $('[data-toggle="popover"]').popover();
+    // click 暫存 btn
     $('[data-toggle="popover"]').on('show.bs.popover', function () {
+
+        let reviewDate = $("#reviewDate").val();
         let scoreList = [];
+
         for (qi = 1; qi < 10; qi++) {
             let scoreName = "radio_q" + qi;
             let qScore = $('input[name=' + scoreName + ']:checked').val();
@@ -74,7 +63,15 @@ $(document).ready(function () {
             }
         }
 
+        console.log(reviewDate);
         console.log(scoreList);
+        saveState(profile);
+    })
+
+    // click 送出資料 btn
+    $('#sendOutModal').on('show.bs.modal', function () {
+        localStorage.clear();
+        console.log("clear localStorage");
     })
 
 

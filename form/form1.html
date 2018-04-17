@@ -103,7 +103,11 @@
       </div>
       <div class="col-lg-4">
         <ul class="list-unstyled">
-          <li id="reviewDate">考核日期：{reviewDate}</li>
+          <li>
+            <label for="reviewDate">考核日期：</label>
+          <input type="date" id="reviewDate">
+          </li>
+
           <li id="arriveDate">到職日期：{arriveDate}</li>
           <li id="regularDate">轉正日期：{regularDate}</li>
         </ul>
@@ -464,7 +468,7 @@
         <p>考績列入丙等人員：</p>
       </div>
       <div class="col-lg-4">
-          <p class="h4" id="totalScore">暫存後顯示</p>
+        <p class="h4" id="totalScore">暫存後顯示</p>
         <div class="custom-control custom-radio">
           <input type="radio" id="bad_perform_end1" name="bad_perform_end" class="custom-control-input">
           <label class="custom-control-label" for="bad_perform_end1">1.建議予以資遣</label>
@@ -490,6 +494,7 @@
   <script src="../vendor/jquery/jquery.min.js"></script>
   <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="form1.js"></script>
+  <script src="../indexlocalsave.js"></script>
 
 </body>
 

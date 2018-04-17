@@ -1,10 +1,6 @@
 {
   "quarter": "第一季度(Q1:106.12~107.03)",
   "fillingPerson": "評核人員X",
-  "testGroup": [
-    ["群組1", "testgroup1", false],
-    ["群組2", "testgroup2", true]
-    ],
   "testList": [
     {
       "employeeId": "testProfile_A",
@@ -13,9 +9,9 @@
       "jobGroup": "群組1",
       "employeeDepartment": "工程事業群",
       "employeeLevel": "1",
-      "reviewDate": "2017/08/01",
-      "arriveDate": "2017/01/01",
-      "regularDate": "2017/03/01",
+      "reviewDate": "",
+      "arriveDate": "2017-01-01",
+      "regularDate": "2017-03-01",
       "formStatus": [false, false],
       "form1Score": {},
       "form2Score": {}
@@ -27,9 +23,9 @@
       "jobGroup": "群組1",
       "employeeDepartment": "工程事業群",
       "employeeLevel": "1",
-      "reviewDate": "2017/08/01",
-      "arriveDate": "2017/01/01",
-      "regularDate": "2017/03/01",
+      "reviewDate": "",
+      "arriveDate": "2017-01-01",
+      "regularDate": "2017-03-01",
       "formStatus": [false, false],
       "form1Score": {},
       "form2Score": {}
@@ -41,9 +37,9 @@
       "jobGroup": "群組1",
       "employeeDepartment": "工程事業群",
       "employeeLevel": "1",
-      "reviewDate": "2017/08/01",
-      "arriveDate": "2017/01/01",
-      "regularDate": "2017/03/01",
+      "reviewDate": "",
+      "arriveDate": "2017-01-01",
+      "regularDate": "2017-03-01",
       "formStatus": [false, false],
       "form1Score": {},
       "form2Score": {}
@@ -55,9 +51,9 @@
       "jobGroup": "群組1",
       "employeeDepartment": "工程事業群",
       "employeeLevel": "1",
-      "reviewDate": "2017/08/01",
-      "arriveDate": "2017/01/01",
-      "regularDate": "2017/03/01",
+      "reviewDate": "2017-08-01",
+      "arriveDate": "2017-01-01",
+      "regularDate": "2017-03-01",
       "formStatus": [true, false],
       "form1Score": {},
       "form2Score": {}

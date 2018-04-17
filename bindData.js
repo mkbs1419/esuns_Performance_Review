@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    console.log("bindData Loaded!");
+    // console.log("bindData Loaded!");
     $("*[bind]").on('change keyup', function (e) {
         let to_bind = $(this).attr('bind');
         $("*[bind='" + to_bind + "']").html($(this).val());

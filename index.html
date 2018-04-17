@@ -92,27 +92,27 @@
           <h5 class="card-header">專案執行績效考核</h5>
           <div class="card-body">
             <h5 class="card-title">完成狀態：</h5>
-            <ul class="list-unstyled">
-              <!-- <li>群組1：已完成</li>
-              <li>群組2：已完成</li>
-              <li>群組3：未完成</li> -->
-            </ul>
+            <p class="card-text">尚有「一般員工考績表」未完成！</p>
+            <p class="card-text"><br></p>
+
             <form>
-              <div class="form-row align-items-center">
-                <div class="col-auto my-1">
-                  <label class="mr-sm-2" for="inlineForm2Select">群組選擇</label>
+                <div class="form-row align-items-center">
+                  <div class="col-auto my-1">
+                    <button type="submit" class="btn btn-primary" id="form2Go" disabled>開始登錄</button>
+                      </button>
+                  </div>
                 </div>
-                <div class="col-auto my-1">
-                  <select class="custom-select mr-sm-2" id="inlineForm2Select">
+              </form>
+
+
+              <!-- <div class="col-auto my-1">
+                  <select class="custom-select mr-sm-2" id="inlineForm1Select">
                     <option selected>請選擇...</option>
                   </select>
-                  <div class="invalid-feedback">未選擇群組</div>
-                </div>
-                <div class="col-auto my-1">
-                  <button type="submit" class="btn btn-primary" id="form2Go">開始登錄</button>
-                </div>
-              </div>
-            </form>
+                  <div class="invalid-feedback">未選擇人員</div>
+                </div> -->
+
+
           </div>
         </div>
       </div>
@@ -187,6 +187,7 @@
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="index.js"></script>
+  <script src="indexlocalsave.js"></script>
   <script src="bindData.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.0.4/echarts.min.js"></script>
 
