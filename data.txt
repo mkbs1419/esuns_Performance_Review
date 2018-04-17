@@ -58,7 +58,7 @@
       "reviewDate": "2017/08/01",
       "arriveDate": "2017/01/01",
       "regularDate": "2017/03/01",
-      "formStatus": [false, false],
+      "formStatus": [true, false],
       "form1Score": {},
       "form2Score": {}
     }
