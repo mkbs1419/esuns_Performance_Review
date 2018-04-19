@@ -20,6 +20,12 @@ $(document).ready(function () {
     $("#form1Done").text("已完成：" + form1Done);
     $("#scoreSummaryTable_quarter").text(dataJson.quarter);
 
+    if ( form1ToDo === 0 ) {
+        $("#form2check1").text("一般員工考績表」已全部完成！");
+        $("#form2check2").text("「專案執行績效考核」可開始填寫");
+        $('#form2Go').prop('disabled', false);
+    }
+
     // select form1
     for (let i = 0; i < dataJson.testList.length; i++) {
         if (dataJson.testList[i].formStatus[0]) {
