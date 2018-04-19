@@ -29,9 +29,12 @@
       width: 10%;
     } */
 
-    /* .radioBtnLabel {
+    .radioBtnLabel {
+      font-size: x-large;
+      margin-right: 5px;
+      margin-left: 5px;
       margin-bottom: 0px;
-    } */
+    }
 
     .cardTable {
       padding: 0px;
@@ -103,15 +106,10 @@
     <div class="row">
       <div class="col-lg-6">
         <h4 id="fillingPerson">考核人：{fillingPerson}</h4>
-        <!-- <ul class="list-unstyled">
-          <li>考核人：{fillingPerson}</li>
-        </ul> -->
       </div>
       <div class="col-lg-6">
-        <h4 id="fillingDate">填表日期：{fillingDate}</h4>
-        <!-- <ul class="list-unstyled">
-          <li>填表日期：{fillingDate}</li>
-        </ul> -->
+        <label class="h4" for="fillingDate">填表日期：</label>
+        <input type="date" id="fillingDate">
       </div>
     </div>
     <div class="row">
@@ -253,6 +251,7 @@
   <script src="../vendor/jquery/jquery.min.js"></script>
   <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="form2.js"></script>
+  <script src="../indexlocalsave.js"></script>
 
 </body>
 

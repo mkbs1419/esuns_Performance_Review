@@ -13,10 +13,6 @@ $(document).ready(function () {
         return (false);
     }
 
-    // function getKeyByValue(object, value) {
-    //     return Object.keys(object).find(key => object[key] === value);
-    // }
-
     // 讀取 localstorage
     var dataJson = checkLocalSave();
     var id = getQueryVariable("id");
@@ -32,7 +28,6 @@ $(document).ready(function () {
     $("#employeeDepartment").text("部門別：" + profile.employeeDepartment);
     $("#employeeName").text("姓名：" + profile.employeeName);
     $("#employeeLevel").text("職等職級：" + profile.employeeLevel);
-    // $("#reviewDate").text("考核日期：" + profile.reviewDate);
     $("#arriveDate").text("到職日期：" + profile.arriveDate);
     $("#regularDate").text("轉正日期：" + profile.regularDate);
 
@@ -48,7 +43,7 @@ $(document).ready(function () {
         let $radios = $('input:radio[name=' + scoreName + ']');
         $radios.filter('[value=' + profile.form1Score[formi] + ']').prop('checked', true);
     }
-    // reviewNote //////////////////
+    // reviewNote
     $('textarea#FormControlTextarea').val(profile.reviewNote);
 
 

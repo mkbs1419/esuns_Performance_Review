@@ -3,10 +3,14 @@ $(document).ready(function () {
     //讀取data
     var dataJson = checkLocalSave();
     console.log(dataJson);
-    saveState( "dataJson", dataJson )
+    saveState("dataJson", dataJson)
 
     let form1ToDo = 0;
     let form1Done = 0;
+    let form2ToDo = 0;
+    
+    let nameList = [];
+    let moneyList = [];
 
     for (let i = 0; i < dataJson.testList.length; i++) {
         if (dataJson.testList[i].formStatus[0]) {
@@ -14,16 +18,24 @@ $(document).ready(function () {
         } else {
             form1ToDo++;
         }
+        if (!dataJson.testList[i].formStatus[1]) {
+            form2ToDo++;
+        }
+        nameList.push(dataJson.testList[i].employeeName);
+        //money
     }
 
     $("#form1ToDo").text("待完成：" + form1ToDo);
     $("#form1Done").text("已完成：" + form1Done);
     $("#scoreSummaryTable_quarter").text(dataJson.quarter);
 
-    if ( form1ToDo === 0 ) {
+    if (form1ToDo === 0) {
         $("#form2check1").text("一般員工考績表」已全部完成！");
         $("#form2check2").text("「專案執行績效考核」可開始填寫");
         $('#form2Go').prop('disabled', false);
+    }
+    if (form2ToDo === 0) {
+        $("#form2check2").text("「專案執行績效考核」已完成！");
     }
 
     // select form1
@@ -35,10 +47,13 @@ $(document).ready(function () {
         }
     }
 
+    console.log(nameList);
+
+    // for () {}
+
     // init chart
     var scoreChart = echarts.init(document.getElementById('scoreChart'));
 
-    // 指定图表的配置项和数据
     var option = {
         title: {
             text: '季獎金發放金額'
@@ -51,7 +66,7 @@ $(document).ready(function () {
         yAxis: {
             type: 'category',
             inverse: true,
-            data: ["人員A", "人員B", "人員C", "人員D"]
+            data: nameList
         },
         series: [{
             name: '發放金額',
@@ -62,13 +77,11 @@ $(document).ready(function () {
                     // position: "right"
                 }
             },
-            data: [5, 20, 36, 10]
+            data: [5, 15, 6, 10]
         }]
     };
-
-    // 使用刚指定的配置项和数据显示图表。
     scoreChart.setOption(option);
-
+});
 
     // button link
     $('#form1Go').click(function () {
@@ -82,12 +95,7 @@ $(document).ready(function () {
         }
     });
 
-    //todo 判斷form1是否完成
-    // $('#form2Go').prop('disabled', true);
-
     $('#form2Go').click(function () {
         console.log("form2Go selected");
         window.open('http://localhost/PR/form/form2.html');
     });
-
-});
