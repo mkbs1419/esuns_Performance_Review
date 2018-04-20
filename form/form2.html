@@ -29,6 +29,10 @@
       width: 10%;
     } */
 
+    .nameBlock {
+      font-size: x-large;
+    }
+
     .radioBtnLabel {
       font-size: x-large;
       margin-right: 5px;
@@ -65,7 +69,7 @@
         <ul class="navbar-nav ml-auto">
           <button type="button" class="btn btn-info" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="已存檔"
             style="margin: 0px 5px 0px 5px;">暫存</button>
-          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#sendOutModal" style="margin: 0px 5px 0px 5px;">送出資料</button>
+          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#sendOutModal" style="margin: 0px 5px 0px 5px;">清空此表</button>
         </ul>
       </div>
     </div>
@@ -73,23 +77,18 @@
 
   <!-- Modal -->
   <div class="modal fade" id="sendOutModal" tabindex="-1" role="dialog" aria-labelledby="sendOutModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="sendOutModalLabel">您的資料已送出！</h5>
-          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button> -->
-        </div>
-        <!-- <div class="modal-body">
-          ...
-        </div> -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉視窗</button>
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="sendOutModalLabel">確定清空此表？</h5>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="clearform2()">確定</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
   <!-- Page Content -->
   <div class="container border" style="margin-top: 15px; margin-bottom: 15px;">
@@ -141,6 +140,8 @@
                   <th>考核人員</th>
                   <th>表現排序</th>
                   <th>表現拙劣← 表現優異程度 →表現優異</th>
+                  <th>表現得分</th>
+                  <th>總得分</th>
                 </tr>
               </thead>
               <tbody id="q1_tbody">
@@ -164,6 +165,8 @@
                   <th>考核人員</th>
                   <th>表現排序</th>
                   <th>表現拙劣← 表現優異程度 →表現優異</th>
+                  <th>表現得分</th>
+                  <th>總得分</th>
                 </tr>
               </thead>
               <tbody id="q2_tbody">
@@ -187,6 +190,8 @@
                   <th>考核人員</th>
                   <th>表現排序</th>
                   <th>表現拙劣← 表現優異程度 →表現優異</th>
+                  <th>表現得分</th>
+                  <th>總得分</th>
                 </tr>
               </thead>
               <tbody id="q3_tbody">
@@ -210,6 +215,8 @@
                   <th>考核人員</th>
                   <th>表現排序</th>
                   <th>表現拙劣← 表現優異程度 →表現優異</th>
+                  <th>表現得分</th>
+                  <th>總得分</th>
                 </tr>
               </thead>
               <tbody id="q4_tbody">
@@ -233,6 +240,8 @@
                   <th>考核人員</th>
                   <th>表現排序</th>
                   <th>表現拙劣← 表現優異程度 →表現優異</th>
+                  <th>表現得分</th>
+                  <th>總得分</th>
                 </tr>
               </thead>
               <tbody id="q5_tbody">

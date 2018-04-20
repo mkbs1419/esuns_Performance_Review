@@ -14,47 +14,57 @@ $(document).ready(function () {
     const testListLength = testNameList.length;
 
     // table 1
-    for (i = 0; i < testListLength; i++) {
+    for (let i = 0; i < testListLength; i++) {
         var tr = $('<tr>')
-            .append($('<td>').text(testNameList[i]))
+            .append($('<td>').text(testNameList[i])).addClass("nameBlock")
             .append($('<td>').html(orderrow(1, i)))
             .append($('<td>').html(scorerow(1, i)))
+            .append($('<td>').attr("id", makeIDrow("perform", 1, i)))
+            .append($('<td>').attr("id", makeIDrow("total", 1, i)))
         $('#q1_tbody').append(tr);
     }
 
     // table 2
-    for (i = 0; i < testListLength; i++) {
+    for (let i = 0; i < testListLength; i++) {
         var tr = $('<tr>')
-            .append($('<td>').text(testNameList[i]))
+            .append($('<td>').text(testNameList[i])).addClass("nameBlock")
             .append($('<td>').html(orderrow(2, i)))
             .append($('<td>').html(scorerow(2, i)))
+            .append($('<td>').attr("id", makeIDrow("perform", 2, i)))
+            .append($('<td>').attr("id", makeIDrow("total", 2, i)))
         $('#q2_tbody').append(tr);
     }
 
     // table 3
-    for (i = 0; i < testListLength; i++) {
+    for (let i = 0; i < testListLength; i++) {
         var tr = $('<tr>')
-            .append($('<td>').text(testNameList[i]))
+            .append($('<td>').text(testNameList[i])).addClass("nameBlock")
             .append($('<td>').html(orderrow(3, i)))
             .append($('<td>').html(scorerow(3, i)))
+            .append($('<td>').attr("id", makeIDrow("perform", 3, i)))
+            .append($('<td>').attr("id", makeIDrow("total", 3, i)))
         $('#q3_tbody').append(tr);
     }
 
     // table 4
-    for (i = 0; i < testListLength; i++) {
+    for (let i = 0; i < testListLength; i++) {
         var tr = $('<tr>')
-            .append($('<td>').text(testNameList[i]))
+            .append($('<td>').text(testNameList[i])).addClass("nameBlock")
             .append($('<td>').html(orderrow(4, i)))
             .append($('<td>').html(scorerow(4, i)))
+            .append($('<td>').attr("id", makeIDrow("perform", 4, i)))
+            .append($('<td>').attr("id", makeIDrow("total", 4, i)))
         $('#q4_tbody').append(tr);
     }
 
     // table 5
-    for (i = 0; i < testListLength; i++) {
+    for (let i = 0; i < testListLength; i++) {
         var tr = $('<tr>')
-            .append($('<td>').text(testNameList[i]))
+            .append($('<td>').text(testNameList[i])).addClass("nameBlock")
             .append($('<td>').html(orderrow(5, i)))
             .append($('<td>').html(scorerow(5, i)))
+            .append($('<td>').attr("id", makeIDrow("perform", 5, i)))
+            .append($('<td>').attr("id", makeIDrow("total", 5, i)))
         $('#q5_tbody').append(tr);
     }
 
@@ -98,6 +108,7 @@ $(document).ready(function () {
             scoreRow[name] = {};
             scoreRow[name].orderList = [];
             scoreRow[name].scoreList = [];
+            scoreRow[name].totalList = [];
         }
 
         for (let qi = 1; qi < questionLength + 1; qi++) {
@@ -111,6 +122,7 @@ $(document).ready(function () {
 
                 let scoreName = "radio_q" + qi + "_p" + pi;
                 score = $('input[name=' + scoreName + ']:checked').val();
+                let idVal = $('input[name=' + scoreName + ']:checked').attr("id");
 
                 // console.log(name + "/" + order + "/" + score);
 
@@ -120,35 +132,44 @@ $(document).ready(function () {
                 } else {
                     $('#' + id).closest('td').removeClass('table-danger');
                     scoreRow[name].orderList.push(order);
+                    let performID = makeIDrow("perform", qi, pi);
+                    $("#" + performID).text(order);
                 }
 
                 if (typeof (score) === "undefined") {
                     $('input[name=' + scoreName + ']').closest('td').addClass('table-danger');
                     scoreRow[name].scoreList.push(0);
                 } else {
+                    $('label[for=' + idVal + ']').addClass("text-success");
                     $('input[name=' + scoreName + ']').closest('td').removeClass('table-danger');
+                    let totalID = makeIDrow("total", qi, pi);
+                    let totalScore = order * score;
+                    $("#" + totalID).text(totalScore);
                     scoreRow[name].scoreList.push(parseInt(score));
+                    scoreRow[name].totalList.push(parseInt(totalScore));
                 }
 
 
                 dataJson.testList[pi].form2Score = scoreRow[name];
-                
+
             }
             // console.log("--------------");
         }
         console.log(scoreRow);
 
+        // form check
         for (let pi = 0; pi < testNameList.length; pi++) {
-            console.log( testNameList[pi] );
+            // console.log(testNameList[pi]);
             let orderListCheck = scoreRow[testNameList[pi]].orderList.indexOf("0");
             let scoreListCheck = scoreRow[testNameList[pi]].scoreList.indexOf(0);
             // console.log( orderListCheck );
             // console.log( scoreListCheck );
-            if ( orderListCheck == -1 && scoreListCheck == -1 ){
-                console.log("formcheck OK");
+            if (orderListCheck == -1 && scoreListCheck == -1) {
+                // console.log("formcheck OK");
                 dataJson.testList[pi].formStatus[1] = true;
             }
         }
+
         dataJson.form2FillingDate = form2FillingDate;
         saveState("dataJson", dataJson);
     })
@@ -175,8 +196,6 @@ $(document).ready(function () {
         return orderrow;
     };
 
-
-
     function scorerow(question_index, person_index) {
         let scorerow = "";
         let name = "radio_q" + question_index + "_p" + person_index;
@@ -188,4 +207,16 @@ $(document).ready(function () {
         return scorerow;
     };
 
+    function makeIDrow(id, question_index, person_index) {
+        let makeIDrow = "";
+        let idName = id + "_q" + question_index + "_p" + person_index;
+        return idName;
+        // console.log(idName);
+    };
 });
+
+function clearform2() {
+    // localStorage.clear();
+    // location.reload();
+    console.log("clearform2 FUNCTION");
+}

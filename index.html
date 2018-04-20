@@ -46,7 +46,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Help</a>
+            <a class="nav-link" href="help.html">Help</a>
           </li>
         </ul>
       </div>
@@ -119,6 +119,14 @@
               <th scope="row">考核季度</th>
               <td id="scoreSummaryTable_quarter">{quarter}</td>
             </tr>
+
+            <tr>
+                <th scope="row">合約金額</th>
+                <td>
+                  <input type="text" placeholder="合約總金額" bind="scoreSummaryTable_expect" />
+                </td>
+              </tr>
+
             <tr>
               <th scope="row">預計發放季獎金金額</th>
               <td>
@@ -143,33 +151,25 @@
         </table>
       </div>
       <!-- score plot -->
-      <div class="col-sm-6">
-          <div class="card">
-              <h5 class="card-header">Featured</h5>
-              <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
+      <div class="col-sm-6" id="pieChart">
       </div>
     </div>
     <div class="row mt-3">
-      <div class="col-sm-6" style="height:300px;border:3px #cccccc dashed;">
-      </div>
-      <div class="col-sm-6" id="scoreChart">
+      <!-- <div class="col-sm-5" id="pieChart">
+      </div> -->
+      <div class="col-sm-12" id="scoreChart">
       </div>
     </div>
     <div class="row mt-3">
       <!-- score item -->
       <div class="col-lg-12 cardstyle">
-        <div class="card">
+        <div class="card" style="margin-bottom: 20px;">
           <div class="card-header">
             <h5 class="card-title">項目明細</h5>
             <!-- <p class="card-text">說明文字</p> -->
           </div>
-          <div class="card-body cardTable">
-            <table class="table table-bordered table-hover tablestyle">
+          <div class="card-body cardTable" style="padding-top: 0px;padding-left: 0px;padding-right: 0px;padding-bottom: 0px;">
+            <table class="table table-bordered table-hover tablestyle" style="margin-bottom: 0px;">
               <thead>
                 <tr>
                   <th>姓名</th>
@@ -179,7 +179,7 @@
                   <th>季獎金發放金額</th>
                 </tr>
               </thead>
-              <tbody id="q4_tbody">
+              <tbody id="indexTable_tbody">
               </tbody>
             </table>
           </div>

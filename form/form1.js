@@ -1,3 +1,6 @@
+var profile_index;
+var dataJson;
+
 $(document).ready(function () {
     var profile = {};
 
@@ -14,11 +17,11 @@ $(document).ready(function () {
     }
 
     // 讀取 localstorage
-    var dataJson = checkLocalSave();
+    dataJson = checkLocalSave();
     var id = getQueryVariable("id");
     for (let profile_i = 0; profile_i < dataJson.testList.length; profile_i++) {
         if (dataJson.testList[profile_i].employeeId == id) {
-            var profile_index = profile_i;
+            profile_index = profile_i;
             var profile = dataJson.testList[profile_i]
         }
     }
@@ -57,6 +60,9 @@ $(document).ready(function () {
         let rating = "";
         let reviewNote = $('textarea#FormControlTextarea').val();
 
+        $( ".table-success" ).removeClass('table-success');
+        $( ".table-danger" ).removeClass('table-danger');
+
         for (let qi = 1; qi < 10; qi++) {
             let scoreName = "radio_q" + qi;
             let qScore = $('input[name=' + scoreName + ']:checked').val();
@@ -65,8 +71,9 @@ $(document).ready(function () {
                 $('input[name=' + scoreName + ']').closest('tr').addClass('table-danger');
                 scoreList.push(0);
             } else {
-                $('input[name=' + scoreName + ']').closest('tr').removeClass('table-danger');
+                $('input[name=' + scoreName + ']:checked').closest('td').addClass('table-success');
                 scoreList.push(parseInt(qScore));
+                $('#q' + qi + '_score').css("font-size", "x-large").text(qScore);
             }
         }
 
@@ -105,17 +112,23 @@ $(document).ready(function () {
 
     })
 
-    // click 送出資料 btn
-    $('#sendOutModal').on('show.bs.modal', function () {
-        localStorage.clear();
-        console.log("clear localStorage");
-    })
-
-
-    // console.log(testProfileData);
-
-    // if (submitCheck) {
-    //     $('input[name=' + scoreName + ']').addClass("disabled");
-    // } else
+    // click 清空此表 btn
+    // $('#sendOutModal').on('show.bs.modal', function () {
+    //     console.log("clear localStorage");
+    // })
 
 });
+
+function clearform1() {
+    // localStorage.clear();
+    // console.log("clearform1 FUNCTION");
+    // console.log(profile_index);
+    dataJson.testList[profile_index].form1Result = [0, ""];
+    dataJson.testList[profile_index].formStatus[0] = false;
+    dataJson.testList[profile_index].reviewDate = "";
+    dataJson.testList[profile_index].form1Score = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    dataJson.testList[profile_index].reviewNote = "";
+    
+    saveState("dataJson", dataJson);
+    location.reload();
+}
