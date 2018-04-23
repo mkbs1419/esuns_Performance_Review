@@ -76,7 +76,7 @@ $(document).ready(function () {
         // console.log(profile.reviewDate);
         $("#fillingDate").val(dataJson.form2FillingDate);
     }
-    // select / radio btn
+    // select / radio btn  // BUG: table 1 警示顏色錯誤
     for (let qi = 1; qi < questionLength + 1; qi++) {
         // console.log("Q" + qi);
 
@@ -159,11 +159,8 @@ $(document).ready(function () {
 
         // form check
         for (let pi = 0; pi < testNameList.length; pi++) {
-            // console.log(testNameList[pi]);
             let orderListCheck = scoreRow[testNameList[pi]].orderList.indexOf("0");
             let scoreListCheck = scoreRow[testNameList[pi]].scoreList.indexOf(0);
-            // console.log( orderListCheck );
-            // console.log( scoreListCheck );
             if (orderListCheck == -1 && scoreListCheck == -1) {
                 // console.log("formcheck OK");
                 dataJson.testList[pi].formStatus[1] = true;

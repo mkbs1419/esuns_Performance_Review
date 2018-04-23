@@ -35,9 +35,9 @@ $(document).ready(function () {
     $("#regularDate").text("轉正日期：" + profile.regularDate);
 
     // Restore from localstorage
+
     // reviewDate
     if (!(profile.reviewDate.length < 10)) {
-        // console.log(profile.reviewDate);
         $("#reviewDate").val(profile.reviewDate);
     }
     // radio btn
@@ -46,6 +46,13 @@ $(document).ready(function () {
         let $radios = $('input:radio[name=' + scoreName + ']');
         $radios.filter('[value=' + profile.form1Score[formi] + ']').prop('checked', true);
     }
+
+    // badPerform
+    if ( profile.form1Result[2][0] !== "" ) {
+        $('input:radio[name=bad_performance]').filter('[value=' + profile.form1Result[2][0] + ']').prop('checked', true);
+        $("#bad_performance2_date").val(profile.form1Result[2][1]);
+    }
+
     // reviewNote
     $('textarea#FormControlTextarea').val(profile.reviewNote);
 
@@ -58,14 +65,18 @@ $(document).ready(function () {
         let scoreList = [];
         let totalScore = "";
         let rating = "";
+        let badPerform = "";
+        let reReview = "";
         let reviewNote = $('textarea#FormControlTextarea').val();
 
-        $( ".table-success" ).removeClass('table-success');
-        $( ".table-danger" ).removeClass('table-danger');
+        $(".table-success").removeClass('table-success');
+        $(".table-danger").removeClass('table-danger');
 
         for (let qi = 1; qi < 10; qi++) {
             let scoreName = "radio_q" + qi;
             let qScore = $('input[name=' + scoreName + ']:checked').val();
+
+            console.log(scoreName + " / " + qScore);
 
             if (typeof (qScore) === "undefined") {
                 $('input[name=' + scoreName + ']').closest('tr').addClass('table-danger');
@@ -76,10 +87,12 @@ $(document).ready(function () {
                 $('#q' + qi + '_score').css("font-size", "x-large").text(qScore);
             }
         }
+        console.log(scoreList);
 
         // sum total score
         if (scoreList.indexOf(0) !== -1) {
-            console.log("未填完");
+            // console.log("未填完");
+            $("#totalScore").text("資料未填完");
         } else {
             totalScore = scoreList.reduce((a, b) => a + b, 0);
 
@@ -99,17 +112,25 @@ $(document).ready(function () {
                 default:
                     rating = "丙";
             }
-            dataJson.testList[profile_index].form1Result = [totalScore, rating];
+
+
+            // 考績丙
+            if (rating === "丙") {
+                badPerform = $("input[type='radio'][name='bad_performance']:checked").val();
+                if (badPerform === "reReview") {
+                    reReview = $("#bad_performance2_date").val();
+                }
+            }
+            dataJson.testList[profile_index].form1Result = [totalScore, rating, [badPerform, reReview]];
             dataJson.testList[profile_index].formStatus[0] = true;
             $("#totalScore").text(totalScore + " " + rating);
         }
-
         dataJson.testList[profile_index].reviewDate = reviewDate;
         dataJson.testList[profile_index].form1Score = scoreList;
         dataJson.testList[profile_index].reviewNote = reviewNote;
         saveState("dataJson", dataJson);
 
-
+        // console.log(dataJson);
     })
 
     // click 清空此表 btn
@@ -123,12 +144,12 @@ function clearform1() {
     // localStorage.clear();
     // console.log("clearform1 FUNCTION");
     // console.log(profile_index);
-    dataJson.testList[profile_index].form1Result = [0, ""];
+    dataJson.testList[profile_index].form1Result = [0, "",[]];
     dataJson.testList[profile_index].formStatus[0] = false;
     dataJson.testList[profile_index].reviewDate = "";
     dataJson.testList[profile_index].form1Score = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     dataJson.testList[profile_index].reviewNote = "";
-    
+
     saveState("dataJson", dataJson);
     location.reload();
 }

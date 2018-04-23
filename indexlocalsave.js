@@ -4,6 +4,9 @@ function checkLocalSave() {
     if (typeof (localSaveDataJson) === "undefined") {
         console.log("----- Load from txt -----");
         localSaveDataJson = {
+            "contractValue": 400000,
+            "actualMoney": 0,
+            "accumulation": 0,
             "quarter": "第一季度(Q1:106.12~107.03)",
             "fillingPerson": "評核人員X",
             "form2FillingDate": "",
@@ -18,7 +21,7 @@ function checkLocalSave() {
                     "regularDate": "2017-03-01",
                     "formStatus": [false, false],
                     "form1Score": [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    "form1Result": [0, ""],
+                    "form1Result": [0, "", []],
                     "form2Score": {
                         "orderList": ["0", "0", "0", "0", "0"],
                         "scoreList": [0, 0, 0, 0, 0],
@@ -36,7 +39,7 @@ function checkLocalSave() {
                     "regularDate": "2017-03-01",
                     "formStatus": [false, false],
                     "form1Score": [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    "form1Result": [0, ""],
+                    "form1Result": [0, "", []],
                     "form2Score": {
                         "orderList": ["0", "0", "0", "0", "0"],
                         "scoreList": [0, 0, 0, 0, 0],
@@ -54,7 +57,7 @@ function checkLocalSave() {
                     "regularDate": "2017-03-01",
                     "formStatus": [false, false],
                     "form1Score": [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    "form1Result": [0, ""],
+                    "form1Result": [0, "", []],
                     "form2Score": {
                         "orderList": ["0", "0", "0", "0", "0"],
                         "scoreList": [0, 0, 0, 0, 0],
@@ -72,7 +75,7 @@ function checkLocalSave() {
                     "regularDate": "2017-03-01",
                     "formStatus": [false, false],
                     "form1Score": [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    "form1Result": [0, ""],
+                    "form1Result": [0, "", []],
                     "form2Score": {
                         "orderList": ["0", "0", "0", "0", "0"],
                         "scoreList": [0, 0, 0, 0, 0],
