@@ -223,7 +223,7 @@ $('#form2Go').click(function () {
 });
 
 
-function reloadFunction() {
-    localStorage.clear();
-    location.reload();
-}
+// function reloadFunction() {
+//     localStorage.clear();
+//     location.reload();
+// }
