@@ -1,97 +1,119 @@
 # -*- coding: utf-8 -*-
-# File: api.py 2018-04-23 for localhost:5000
+# File: api.py 2018-04-23 for localhost:3000
 from flask import Flask
-# from flask_cors import CORS
-from flask_restful import Resource, Api, fields, marshal_with
+from flask_cors import CORS
+from flask_restful import Resource, Api, fields, marshal_with, reqparse
 import pymysql.cursors
 from datetime import datetime, timedelta
 
-
 app = Flask(__name__)
-# CORS(app)
+CORS(app)
 # cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 api = Api(app)
 
 SERVER_name = 'localhost'
 
+parser = reqparse.RequestParser()
+
 # layout fields
-AP_fields = {
-    'id': fields.Integer,
-    'date': fields.DateTime(dt_format='iso8601'),
-    'Id_Number': fields.String,
-    'PC_name': fields.String,
-    'AP_version': fields.String(default='1.0')
-}
+# AP_fields = {
+#     'id': fields.Integer,
+#     'date': fields.DateTime(dt_format='iso8601'),
+#     'Id_Number': fields.String,
+#     'PC_name': fields.String,
+#     'AP_version': fields.String(default='1.0')
+# }
 
 
-def get_conn(dbname):
-    conn = pymysql.connect(host='localhost',
-                             user='root',
-                             password='root',
-                             db='esuns_performance_bonus',
-                             charset='utf8mb4',
-                             cursorclass=pymysql.cursors.DictCursor)
+def get_conn():
+    conn = pymysql.connect(
+        host='localhost',
+        user='root',
+        password='root',
+        db='esuns_performance_bonus',
+        charset='utf8mb4',
+        cursorclass=pymysql.cursors.DictCursor)
     cursor = conn.cursor()
     return conn, cursor
 
 
-# def execute_sql(cursor):
-#     columns = [column[0] for column in cursor.description]
-#     # print 'columns', columns
-#     results = []
-#     for row in cursor.fetchall():
-#         results.append(dict(zip(columns, row)))
-#     return results
-
-
 class status(Resource):
     def get(self):
-        response = [
-            'API is running OK'
-        ]
+        response = ['API is running OK']
         return response
-        
+
+
 # login -- projectinfo
 class projects(Resource):
     def get(self):
-        conn, cursor = get_conn('Esuns_Collector_Data')
-        sql = "SELECT * FROM `projectinfo`"
+        print "/projects GET"
+        conn, cursor = get_conn()
+        sql = "SELECT projectName FROM `projectinfo` ORDER BY _id ASC"
         cursor.execute(sql)
-        result = cursor.fetchall()
-
-        print "/projects"
-
+        result = []
+        for row in cursor:
+            result.append(row["projectName"])
         cursor.close()
         conn.close()
         return result
 
+    def post(self):
+        print "/projects POST"
+        parser.add_argument('project', type=unicode)
+        parser.add_argument('password', type=str)
+        args = parser.parse_args()
 
-# class AP_record_day(Resource):
-#     def get(self, day_num):
-#         conn, cursor = get_conn('Esuns_Collector_Data')
+        conn, cursor = get_conn()
+        sql = "SELECT projectName, contractValue, quarter, actualMoney, accumulation, fillingPerson, testList FROM `projectinfo` WHERE projectName = \"" + args["project"] + "\" AND password = \"" + args["password"] + "\""
+        cursor.execute(sql)
 
-#         today, ago = get_today(int(day_num))
-#         sql = "SELECT [id],[date],[Id_Number],[PC_name],[AP_version] FROM [Esuns_Collector_Data].[dbo].[AP_Record] WHERE [date] > '" + str(ago) + "'"
+        result = cursor.fetchone()
+        result["testList"] = result["testList"].split(",")
 
-#         cursor.execute(sql)
-#         result = execute_sql(cursor)
+        if (result):
+            print "Access Allow"
+            cursor.close()
+            conn.close()
+            return [True, result], 201
+        else:
+            print "Access Denied"
+            cursor.close()
+            conn.close()
+            return [False, {"projectName": args["project"]}], 201
 
-#         response = {"show_days": day_num, "earliest_date": ago}
-#         response["data"] = result
+# index -- employeeinfo
+class employeeinfo(Resource):
+    def post(self):
+        print "/employeeinfo POST"
+        parser.add_argument('testList', action='append')
+        args = parser.parse_args()
 
-#         cursor.close()
-#         conn.close()
-#         return response
+        testList = args["testList"]
 
+        conn, cursor = get_conn()
+        sql = "SELECT employeeId, employeeName, form1Status, form2Status FROM `employeeinfo` WHERE employeeId IN ("
+        sql_ele = ""
+        for ele in testList:
+            sql_ele = sql_ele + "\"" + ele + "\","
+        sql = sql + sql_ele[:-1] + ")"
+        print sql
+        cursor.execute(sql)
+        result = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        return result
 
 
 api.add_resource(status, '/')  # API server's status
 ###############################################################################
 api.add_resource(projects, '/projects')
+api.add_resource(employeeinfo, '/employeeinfo')
 
 # api.add_resource(AP_record, '/AP_record')  # Shows AP_Record today's data
 # api.add_resource(AP_record_day, '/AP_record/<day_num>')  # Shows the data for # days
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=False)
-    # app.run(port=5000, debug=True)
+    app.run(host='0.0.0.0', port=3000, debug=False)
+    # app.run(port=3000, debug=True)
