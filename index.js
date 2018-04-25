@@ -1,7 +1,7 @@
 // TODO
 // dataJson.quarter 敘述轉換
 
-const apiURL = "http://f7b755cd.ap.ngrok.io";
+const apiURL = "http://78e0e949.ap.ngrok.io";
 const bonusRate = 0.25;
 
 $(document).ready(function () {
@@ -25,23 +25,23 @@ $(document).ready(function () {
         console.log(testList);
 
         //讀取data -> dataJson
-        $.ajax({
-            method: "POST",
-            url: apiURL + "/employeeinfo",
-            data: {
-                testList: dataJson.testList
-            },
-            success: function (response) {
-                console.log(response);
-                // if (response[0]) {
-                //     sessionStorage["projectInfo"] = JSON.stringify(response);
-                //     window.location = '/PR/index.html';
-                // } else {
-                //     // alert(response[1] + '： 密碼錯誤');
-                //     $('#inputPassword').addClass('is-invalid');
-                // }
-            }
-        })
+        // $.ajax({
+        //     method: "POST",
+        //     url: apiURL + "/employeeinfo",
+        //     data: {
+        //         testList: dataJson.testList
+        //     },
+        //     success: function (response) {
+        //         console.log(response);
+        //         if (response[0]) {
+        //             sessionStorage["projectInfo"] = JSON.stringify(response);
+        //             window.location = '/PR/index.html';
+        //         } else {
+        //             // alert(response[1] + '： 密碼錯誤');
+        //             $('#inputPassword').addClass('is-invalid');
+        //         }
+        //     }
+        // })
 
 
 

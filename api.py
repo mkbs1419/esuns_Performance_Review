@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # File: api.py 2018-04-23 for localhost:3000
 from flask import Flask
-from flask_cors import CORS
+# from flask_cors import CORS
 from flask_restful import Resource, Api, fields, marshal_with, reqparse
 import pymysql.cursors
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
 # cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 api = Api(app)
 
@@ -16,13 +16,22 @@ SERVER_name = 'localhost'
 parser = reqparse.RequestParser()
 
 # layout fields
-# AP_fields = {
-#     'id': fields.Integer,
-#     'date': fields.DateTime(dt_format='iso8601'),
-#     'Id_Number': fields.String,
-#     'PC_name': fields.String,
-#     'AP_version': fields.String(default='1.0')
-# }
+testList_fields = {
+    'arriveDate': fields.String(default=''),  # fields.DateTime(dt_format='iso8601')
+    'employeeDepartment': fields.String,
+    'employeeGroup': fields.String,
+    'employeeId': fields.String,
+    'employeeLevel': fields.String,
+    'employeeName': fields.String,
+    'form1Result': fields.List,
+    'form1Score': fields.List,
+    'form2Score': fields.List,
+    'form1Status': fields.Boolean(default=False),
+    'form2Status': fields.Boolean(default=False),
+    'regularDate': fields.String(default=''),
+    'reviewDate': fields.String(default=''),
+    'reviewNote': fields.String(default='')
+}
 
 
 def get_conn():
@@ -83,6 +92,7 @@ class projects(Resource):
 
 # index -- employeeinfo
 class employeeinfo(Resource):
+    # @marshal_with(testList_fields, envelope='resource')
     def post(self):
         print "/employeeinfo POST"
         parser.add_argument('testList', action='append')
