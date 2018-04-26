@@ -52,7 +52,8 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <button type="button" class="btn btn-info" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="已存檔"
-            style="margin: 0px 5px 0px 5px;">暫存</button>
+            style="margin: 0px 5px 0px 5px;">存檔</button>
+            <button type="button" class="btn btn-success" style="margin: 0px 5px 0px 5px;" id="sendToSQL" disabled>送至資料庫</button>  
           <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#sendOutModal" style="margin: 0px 5px 0px 5px;">清空此表</button>
         </ul>
       </div>
@@ -95,7 +96,7 @@
       <div class="col-lg-4">
         <ul class="list-unstyled">
           <li>&nbsp;</li>
-          <li>&nbsp;</li>
+          <li id="employeeTitle">職務名稱：{employeeTitle}</li>
           <li id="employeeLevel">職等職級：{employeeLevel}</li>
         </ul>
       </div>
@@ -766,7 +767,11 @@
         <p>考績列入丙等人員：</p>
       </div>
       <div class="col-lg-4">
-        <p class="h4" id="totalScore">暫存後顯示</p>
+        <p class="h4" id="totalScore">存檔後顯示</p>
+        <div class="custom-control custom-radio">
+            <input type="radio" id="bad_performance0" name="bad_performance" class="custom-control-input" value="none">
+            <label class="custom-control-label" for="bad_performance0">0.無</label>
+          </div>
         <div class="custom-control custom-radio">
           <input type="radio" id="bad_performance1" name="bad_performance" class="custom-control-input" value="layOff">
           <label class="custom-control-label" for="bad_performance1">1.建議予以資遣</label>
@@ -779,7 +784,7 @@
       </div>
       <div class="col-lg-6">
         <form>備註：(對該員另有評語，請載明於此。)
-          <textarea class="form-control" id="FormControlTextarea" rows="3"></textarea>
+          <textarea class="form-control" id="FormControlTextarea" rows="4"></textarea>
         </form>
       </div>
     </div>

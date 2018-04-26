@@ -45,50 +45,47 @@
 
 <script src="vendor/jquery/jquery.min.js"></script>
 <script>
-    const apiURL = "http://78e0e949.ap.ngrok.io";
+    $(document).ready(function () {
+        const apiURL = "http://localhost:3000";
 
-    $.ajax({
-            method: "GET",
-            url: apiURL + "/projects",
-        })
-        .done(function (response) {
-            console.log(response);
-            for (let i = 0; i < response.length; i++) {
-                $('#projectSelect').append($('<option>').text(response[i]).attr("value", response[i]));
+        $.get(apiURL + "/projects", function (data, status) {
+            console.log(data);
+            for (let i = 0; i < data.length; i++) {
+                $('#projectSelect').append($('<option>').text(data[i]).attr("value", data[i]));
             }
         });
 
-        
 
-    $('#loginbtn').click(function () {
-        let selected = $("#projectSelect").val();
-        let password = $("#inputPassword").val();
+        $('#loginbtn').click(function () {
+            let selected = "";
+            let password = "";
 
-        if (selected.length != 0 && password.length != 0) {
-            // console.log(selected);
-            // console.log(password);
+            selected = $("#projectSelect").val();
+            password = $("#inputPassword").val();
 
-            $.ajax({
-                method: "POST",
-                url: apiURL + "/projects",
-                data: {
-                    project: selected,
-                    password: password
-                },
-                success: function (response) {
-                    console.log(response);
-                    if (response[0]) {
-                        sessionStorage["projectInfo"] = JSON.stringify(response);
-                        window.location = '/PR/index.html';
-                    } else {
-                        // alert(response[1] + '： 密碼錯誤');
-                        $('#inputPassword').addClass('is-invalid');
-                    }
-                }
-            })
-        } else {
-            $('#inputPassword').addClass('is-invalid');
-        }
+            if (selected.length != 0 && password.length != 0) {
+                // console.log(selected);
+                // console.log(password);
+
+                $.post(apiURL + "/projects", {
+                        project: selected,
+                        password: password
+                    },
+                    function (data, status) {
+                        console.log(data);
+                        if (data[0]) {
+                            sessionStorage["projectInfo"] = JSON.stringify(data);
+                            window.location = '/PR/index.html';
+                        } else {
+                            // alert(data[1] + '： 密碼錯誤');
+                            $('#inputPassword').addClass('is-invalid');
+                        }
+                    });
+            } else {
+                $('#inputPassword').addClass('is-invalid');
+            }
+        });
+
     });
 </script>
 

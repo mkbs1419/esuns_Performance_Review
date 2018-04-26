@@ -68,7 +68,8 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <button type="button" class="btn btn-info" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="已存檔"
-            style="margin: 0px 5px 0px 5px;">暫存</button>
+            style="margin: 0px 5px 0px 5px;">存檔</button>
+          <button type="button" class="btn btn-success" style="margin: 0px 5px 0px 5px;" id="sendToSQL" disabled>送至資料庫</button>
           <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#sendOutModal" style="margin: 0px 5px 0px 5px;">清空此表</button>
         </ul>
       </div>
@@ -77,18 +78,18 @@
 
   <!-- Modal -->
   <div class="modal fade" id="sendOutModal" tabindex="-1" role="dialog" aria-labelledby="sendOutModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="sendOutModalLabel">確定清空此表？</h5>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="clearform2()">確定</button>
-          </div>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="sendOutModalLabel">確定清空此表？</h5>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="clearform2()">確定</button>
         </div>
       </div>
     </div>
+  </div>
 
   <!-- Page Content -->
   <div class="container border" style="margin-top: 15px; margin-bottom: 15px;">

@@ -1,37 +1,28 @@
 # -*- coding: utf-8 -*-
 # File: api.py 2018-04-23 for localhost:3000
 from flask import Flask
-# from flask_cors import CORS
+from flask_cors import CORS
 from flask_restful import Resource, Api, fields, marshal_with, reqparse
 import pymysql.cursors
-from datetime import datetime, timedelta
+from datetime import date, datetime
+from urllib import unquote
 
 app = Flask(__name__)
-# CORS(app)
-# cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 api = Api(app)
 
 SERVER_name = 'localhost'
 
 parser = reqparse.RequestParser()
 
-# layout fields
-testList_fields = {
-    'arriveDate': fields.String(default=''),  # fields.DateTime(dt_format='iso8601')
-    'employeeDepartment': fields.String,
-    'employeeGroup': fields.String,
-    'employeeId': fields.String,
-    'employeeLevel': fields.String,
-    'employeeName': fields.String,
-    'form1Result': fields.List,
-    'form1Score': fields.List,
-    'form2Score': fields.List,
-    'form1Status': fields.Boolean(default=False),
-    'form2Status': fields.Boolean(default=False),
-    'regularDate': fields.String(default=''),
-    'reviewDate': fields.String(default=''),
-    'reviewNote': fields.String(default='')
-}
+
+def json_serial(obj):
+    """JSON serializer for objects not serializable by default json code"""
+
+    if isinstance(obj, (datetime, date)):
+        return obj.isoformat()
+    raise TypeError ("Type %s not serializable" % type(obj))
 
 
 def get_conn():
@@ -90,15 +81,34 @@ class projects(Resource):
             conn.close()
             return [False, {"projectName": args["project"]}], 201
 
-# index -- employeeinfo
+
+# index, form1 -- employeeinfo
 class employeeinfo(Resource):
-    # @marshal_with(testList_fields, envelope='resource')
-    def post(self):
+    def get(self, employeeId_):
+        print "/employeeinfo GET"
+        conn, cursor = get_conn()
+        sql = "SELECT * FROM `employeeinfo` WHERE employeeId = \"" + employeeId_ + "\""
+        cursor.execute(sql)
+        result = cursor.fetchone()
+
+        result["arriveDate"] = json_serial(result["arriveDate"])
+        result["regularDate"] = json_serial(result["regularDate"])
+
+        cursor.close()
+        conn.close()
+        return result
+
+    def post(self, employeeId_):
         print "/employeeinfo POST"
-        parser.add_argument('testList', action='append')
+        parser.add_argument('testList')
         args = parser.parse_args()
 
         testList = args["testList"]
+        testList = testList.replace("[", "")
+        testList = testList.replace("]", "")
+        testList = testList.replace("\"", "")
+        testList = testList.replace(" ", "")
+        testList = testList.split(",")
 
         conn, cursor = get_conn()
         sql = "SELECT employeeId, employeeName, form1Status, form2Status FROM `employeeinfo` WHERE employeeId IN ("
@@ -116,14 +126,114 @@ class employeeinfo(Resource):
         return result
 
 
+# form1 -- form1 table
+class form1data(Resource):
+    def post(self, employeeId_):
+        print "/form1data POST"
+        parser.add_argument('unid', type=unicode)
+        parser.add_argument('projectName', type=unicode)
+        parser.add_argument('quarter', type=str)
+        parser.add_argument('reviewDate', type=str)
+        parser.add_argument('scoreList')
+        parser.add_argument('form1Result')
+        parser.add_argument('reviewNote', type=unicode)
+        args = parser.parse_args()
+
+        scoreList = args["scoreList"]
+        scoreList = scoreList.replace("[", "")
+        scoreList = scoreList.replace("]", "")
+        scoreList = scoreList.replace("\"", "")
+        scoreList = scoreList.replace(" ", "")
+        scoreList = scoreList.split(",")
+
+        form1Result = args["form1Result"]
+        form1Result = form1Result.replace("[", "")
+        form1Result = form1Result.replace("]", "")
+        form1Result = form1Result.replace("\"", "")
+        form1Result = form1Result.replace(" ", "")
+        form1Result = form1Result.split(",")
+
+        # insert or update if exist
+        conn, cursor = get_conn()
+        sql = "INSERT INTO `from1` (`_id`, `employeeId`, `projectName`, `quarter`, `reviewDate`, `q1Score`, `q2Score`, `q3Score`, `q4Score`, `q5Score`, `q6Score`, `q7Score`, `q8Score`, `q9Score`, `result`, `description`, `badPerformance`, `note`) VALUES "
+        sql_data = "(\""+args["unid"]+"\", \""+employeeId_+"\", \""+args["projectName"]+"\", \""+args["quarter"]+"\", \""+args["reviewDate"]+"\", "
+        sql_data_score = ""
+        sql_data_result = ""
+        for ele in scoreList:
+            sql_data_score = sql_data_score + "\"" + ele + "\", "
+        sql_data_result = "\"" + form1Result[0] + "\", \"" + form1Result[1] + "\", \"" + form1Result[2] + "," + form1Result[3] + "\", \"" + args["reviewNote"] + "\")"
+        sql_end = " ON DUPLICATE KEY UPDATE reviewDate = \"" + args["reviewDate"] + "\", q1Score = \"" + scoreList[0] + "\", q2Score = \"" + scoreList[1] + "\", q3Score = \"" + scoreList[2] + "\", q4Score = \"" + scoreList[3] + "\", q5Score = \"" + scoreList[4] + "\", q6Score = \"" + scoreList[5] + "\", q7Score = \"" + scoreList[6] + "\", q8Score = \"" + scoreList[7] + "\", q9Score = \"" + scoreList[8] + "\", result = \"" + form1Result[0]+ "\", description = \"" + form1Result[1] + "\", badPerformance = \"" + form1Result[2] + "," + form1Result[3] + "\", note = \"" + args["reviewNote"] + "\""
+        sql = sql + sql_data + sql_data_score + sql_data_result + sql_end
+        cursor.execute(sql)
+        sql = "UPDATE `employeeinfo` SET `form1Status` = '1' WHERE employeeId = \"" + employeeId_ + "\""
+        cursor.execute(sql)
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return True
+
+
+# form2 -- form2 table
+class form2data(Resource):
+    def post(self):
+        print "/form2data POST"
+        parser.add_argument('unid', type=unicode)
+        parser.add_argument('projectName', type=unicode)
+        parser.add_argument('quarter', type=str)
+        parser.add_argument('reviewDate', type=str)
+        parser.add_argument('employeeId', type=unicode)
+        parser.add_argument('orderList')
+        parser.add_argument('scoreList')
+        parser.add_argument('totalList')
+        args = parser.parse_args()
+
+        print args
+
+        # scoreList = args["scoreList"]
+        # scoreList = scoreList.replace("[", "")
+        # scoreList = scoreList.replace("]", "")
+        # scoreList = scoreList.replace("\"", "")
+        # scoreList = scoreList.replace(" ", "")
+        # scoreList = scoreList.split(",")
+
+        # form1Result = args["form1Result"]
+        # form1Result = form1Result.replace("[", "")
+        # form1Result = form1Result.replace("]", "")
+        # form1Result = form1Result.replace("\"", "")
+        # form1Result = form1Result.replace(" ", "")
+        # form1Result = form1Result.split(",")
+
+        # insert or update if exist
+        # conn, cursor = get_conn()
+        # sql = "INSERT INTO `from1` (`_id`, `employeeId`, `projectName`, `quarter`, `reviewDate`, `q1Score`, `q2Score`, `q3Score`, `q4Score`, `q5Score`, `q6Score`, `q7Score`, `q8Score`, `q9Score`, `result`, `description`, `badPerformance`, `note`) VALUES "
+        # sql_data = "(\""+args["unid"]+"\", \""+employeeId_+"\", \""+args["projectName"]+"\", \""+args["quarter"]+"\", \""+args["reviewDate"]+"\", "
+        # sql_data_score = ""
+        # sql_data_result = ""
+        # for ele in scoreList:
+        #     sql_data_score = sql_data_score + "\"" + ele + "\", "
+        # sql_data_result = "\"" + form1Result[0] + "\", \"" + form1Result[1] + "\", \"" + form1Result[2] + "," + form1Result[3] + "\", \"" + args["reviewNote"] + "\")"
+        # sql_end = " ON DUPLICATE KEY UPDATE reviewDate = \"" + args["reviewDate"] + "\", q1Score = \"" + scoreList[0] + "\", q2Score = \"" + scoreList[1] + "\", q3Score = \"" + scoreList[2] + "\", q4Score = \"" + scoreList[3] + "\", q5Score = \"" + scoreList[4] + "\", q6Score = \"" + scoreList[5] + "\", q7Score = \"" + scoreList[6] + "\", q8Score = \"" + scoreList[7] + "\", q9Score = \"" + scoreList[8] + "\", result = \"" + form1Result[0]+ "\", description = \"" + form1Result[1] + "\", badPerformance = \"" + form1Result[2] + "," + form1Result[3] + "\", note = \"" + args["reviewNote"] + "\""
+        # sql = sql + sql_data + sql_data_score + sql_data_result + sql_end
+        # cursor.execute(sql)
+        # sql = "UPDATE `employeeinfo` SET `form1Status` = '1' WHERE employeeId = \"" + employeeId_ + "\""
+        # cursor.execute(sql)
+        # conn.commit()
+        # cursor.close()
+        # conn.close()
+        return args
+
+
+
 api.add_resource(status, '/')  # API server's status
 ###############################################################################
 api.add_resource(projects, '/projects')
-api.add_resource(employeeinfo, '/employeeinfo')
+api.add_resource(employeeinfo, '/employeeinfo/<employeeId_>')
+api.add_resource(form1data, '/form1data/<employeeId_>')
+api.add_resource(form2data, '/form2data')
 
 # api.add_resource(AP_record, '/AP_record')  # Shows AP_Record today's data
 # api.add_resource(AP_record_day, '/AP_record/<day_num>')  # Shows the data for # days
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000, debug=False)
-    # app.run(port=3000, debug=True)
+    app.run(host="0.0.0.0", port=3000, threaded=True, debug=False)
+    # app.run(host="0.0.0.0", port=3000, threaded=True, debug=True)
