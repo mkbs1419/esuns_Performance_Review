@@ -98,9 +98,9 @@ $(document).ready(function () {
 
             // restore 暫存
             // fillingDate
-            if (!(dataJson.form2FillingDate < 10)) {
+            if (!(dataJson.reviewDate < 10)) {
                 // console.log(profile.reviewDate);
-                $("#fillingDate").val(form2SessionlSave.form2FillingDate);
+                $("#fillingDate").val(form2SessionlSave.reviewDate);
             }
 
             // select / radio btn
@@ -110,10 +110,10 @@ $(document).ready(function () {
                     let id = "select_q" + qi + "_p" + pi;
                     let scoreName = "radio_q" + qi + "_p" + pi;
                     // order
-                    $('#' + id).val(form2SessionlSave.scoreRow[form2SessionlSave.testListName[pi][1]].orderList[qi - 1]);
+                    $('#' + id).val(form2SessionlSave.scoreRow[form2SessionlSave.testListName[pi][0]].orderList[qi - 1]);
 
                     let $radios = $('input:radio[name=' + scoreName + ']');
-                    $radios.filter('[value=' + form2SessionlSave.scoreRow[form2SessionlSave.testListName[pi][1]].scoreList[qi - 1] + ']').prop('checked', true);
+                    $radios.filter('[value=' + form2SessionlSave.scoreRow[form2SessionlSave.testListName[pi][0]].scoreList[qi - 1] + ']').prop('checked', true);
                 }
             }
         }
@@ -137,7 +137,7 @@ $(document).ready(function () {
             let formComplete = true;
 
             for (let pi = 0; pi < dataJson.testListName.length; pi++) {
-                name = dataJson.testListName[pi][1];
+                name = dataJson.testListName[pi][0];
                 scoreRow[name] = {};
                 scoreRow[name].orderList = [];
                 scoreRow[name].scoreList = [];
@@ -148,7 +148,7 @@ $(document).ready(function () {
                 // console.log("Q" + qi);
 
                 for (let pi = 0; pi < dataJson.testListName.length; pi++) {
-                    name = dataJson.testListName[pi][1];
+                    name = dataJson.testListName[pi][0];
 
                     let id = "select_q" + qi + "_p" + pi;
                     order = $('#' + id).val();
@@ -222,9 +222,9 @@ $(document).ready(function () {
             dataPackage.unid = ":" + dataJson.projectName + ":" + dataJson.quarter;
             dataPackage.projectName = dataJson.projectName;
             dataPackage.quarter = dataJson.quarter;
+            dataPackage.reviewDate = form2FillingDate;
             dataPackage.scoreRow = scoreRow;
             dataPackage.testListName = dataJson.testListName;
-            dataPackage.form2FillingDate = form2FillingDate;
 
             dataPackage.complete = formComplete;
 
@@ -242,84 +242,64 @@ $(document).ready(function () {
             console.log("送出 - SQL");
 
             let sendScoreRow = dataPackage.scoreRow;
+            let size = Object.keys(sendScoreRow).length;
+            let checkSize = 0;
 
-            // for (key in sendScoreRow) {
-            let key = "受評人員A";
-            // console.log("處理 - ", key);
+            for (key in sendScoreRow) {
+                console.log("處理 - ", key);
 
-            // 轉換 orderList
-            let orderWords = "[";
-            for (let li = 0; li < sendScoreRow[key].orderList.length; li++) {
-                orderWords = orderWords + "\"" + sendScoreRow[key].orderList[li] + "\","
-            }
-            orderWords = orderWords.slice(0, -1);
-            orderWords = orderWords + "]";
+                // 轉換 orderList
+                let orderWords = "[";
+                for (let li = 0; li < sendScoreRow[key].orderList.length; li++) {
+                    orderWords = orderWords + "\"" + sendScoreRow[key].orderList[li] + "\","
+                }
+                orderWords = orderWords.slice(0, -1);
+                orderWords = orderWords + "]";
 
-            // 轉換 scoreList
-            let scoreWords = "[";
-            for (let li = 0; li < sendScoreRow[key].scoreList.length; li++) {
-                scoreWords = scoreWords + "\"" + sendScoreRow[key].scoreList[li] + "\","
-            }
-            scoreWords = scoreWords.slice(0, -1);
-            scoreWords = scoreWords + "]";
+                // 轉換 scoreList
+                let scoreWords = "[";
+                for (let li = 0; li < sendScoreRow[key].scoreList.length; li++) {
+                    scoreWords = scoreWords + "\"" + sendScoreRow[key].scoreList[li] + "\","
+                }
+                scoreWords = scoreWords.slice(0, -1);
+                scoreWords = scoreWords + "]";
 
-            // 轉換 totalList
-            let totalWords = "[";
-            for (let li = 0; li < sendScoreRow[key].totalList.length; li++) {
-                totalWords = totalWords + "\"" + sendScoreRow[key].totalList[li] + "\","
-            }
-            totalWords = totalWords.slice(0, -1);
-            totalWords = totalWords + "]";
+                // 轉換 totalList
+                let totalWords = "[";
+                for (let li = 0; li < sendScoreRow[key].totalList.length; li++) {
+                    totalWords = totalWords + "\"" + sendScoreRow[key].totalList[li] + "\","
+                }
+                totalWords = totalWords.slice(0, -1);
+                totalWords = totalWords + "]";
 
-            console.log(orderWords);
-            console.log(scoreWords);
-            console.log(totalWords);
+                console.log(orderWords);
+                console.log(scoreWords);
+                console.log(totalWords);
 
-            // sen to SQL  // API 未寫
-            $.post(apiURL + "/form2data", {
-                    unid: dataPackage.unid,
-                    projectName: dataPackage.projectName,
-                    quarter: dataPackage.quarter,
-                    reviewDate: dataPackage.reviewDate,
-                    employeeId: key,
-                    orderList: orderWords,
-                    scoreList: scoreWords,
-                    totalList: totalWords
-                },
-                function (data, status) {
-                    console.log(data);
-                    // if (data) {
-                    //     alert("送出完成，將導回主頁面。");
-                    //     window.location = '/PR/index.html';
-                    // } else {
-                    //     alert("送出失敗，請再操作一遍。");
-                    // }                    
-                });
+                // sen to SQL
+                $.post(apiURL + "/form2data", {
+                        unid: dataPackage.unid,
+                        projectName: dataPackage.projectName,
+                        quarter: dataPackage.quarter,
+                        reviewDate: dataPackage.reviewDate,
+                        employeeId: key,
+                        orderList: orderWords,
+                        scoreList: scoreWords,
+                        totalList: totalWords
+                    },
+                    function (data, status) {
+                        // console.log(data);
+                        checkSize++;
+                        if (data && size === checkSize) {
+                            console.log(size + " / " + checkSize);
+                            alert("送出完成，將導回主頁面。");
+                            window.location = '/PR/index.html';
+                        }               
+                    });
 
-            //////////////////////
-            // }  // key end
+            } // key end
 
-            // console.log(dataPackage.unid);
-
-            // $.post(apiURL + "/form1data/" + id, {
-            //         // employeeId: dataPackage.employeeId,
-            //         unid: dataPackage.unid,
-            //         projectName: dataPackage.projectName,
-            //         quarter: dataPackage.quarter,
-            //         reviewDate: dataPackage.reviewDate,
-            //         scoreList: scoreWords,
-            //         form1Result: form1ResultWords,
-            //         reviewNote: dataPackage.reviewNote
-            //     },
-            //     function (data, status) {
-            //         if (data) {
-            //             alert("送出完成，將導回主頁面。");
-            //             window.location = '/PR/index.html';
-            //         } else {
-            //             alert("送出失敗，請再操作一遍。");
-            //         }                    
-            //     });
-            // $('#sendToSQL').prop('disabled', true);
+            $('#sendToSQL').prop('disabled', true);
         });
 
     }
