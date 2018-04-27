@@ -34,9 +34,9 @@
 ![自動結算分數][form2_2]
 
 ## ToDo
- -[] 專案資訊導入頁面(import.html)
- 
- -[] form2.html 表現排序重複檢查
+ -[ ] 專案資訊導入頁面(import.html)
+
+ -[ ] form2.html 表現排序重複檢查
 
 
 [login]: https://raw.githubusercontent.com/mkbs1419/esuns_Performance_Review/master/png/login.png  "登入頁面"
