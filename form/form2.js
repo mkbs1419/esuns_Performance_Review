@@ -315,9 +315,9 @@ $(document).ready(function () {
             if (order_i == 0) {
                 pin = "<option value='0'>--請選擇--</option>";
             } else if (order_i == 1) {
-                pin = "<option value='" + dataJson.testListName.length + "'>" + order_i + "(表現拙劣)</option>";
+                pin = "<option value='" + dataJson.testListName.length + "'>" + order_i + "(表現優異)</option>";
             } else if (order_i == dataJson.testListName.length) {
-                pin = "<option value='1'>" + order_i + "(表現優異)</option>";
+                pin = "<option value='1'>" + order_i + "(表現拙劣)</option>";
             } else {
                 pin = "<option value='" + (dataJson.testListName.length - order_i + 1) + "'>" + order_i + "</option>";
             }
