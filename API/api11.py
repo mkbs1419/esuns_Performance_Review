@@ -225,6 +225,27 @@ class form2data(Resource):
         conn.close()
         return True
 
+# index -- index save
+class indexsave(Resource):
+    def post(self):
+        print "/indexsave POST"
+        parser.add_argument('projectName', type=unicode)
+        parser.add_argument('actualMoney', type=int)
+        parser.add_argument('accumulation', type=int)
+        args = parser.parse_args()
+
+        print args
+
+        # update table
+        conn, cursor = get_conn()
+        sql = "UPDATE `projectinfo` SET `actualMoney` = "+str(args["actualMoney"])+", `accumulation` = "+str(args["accumulation"])+" WHERE `projectName` = '"+args["projectName"]+"';"
+        print sql
+        cursor.execute(sql)
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return args
+
 
 api.add_resource(status, '/')  # API server's status
 ###############################################################################
@@ -232,6 +253,7 @@ api.add_resource(projects, '/projects')
 api.add_resource(employeeinfo, '/employeeinfo/<employeeId_>')
 api.add_resource(form1data, '/form1data/<employeeId_>')
 api.add_resource(form2data, '/form2data')
+api.add_resource(indexsave, '/indexsave')
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=3000, threaded=True, debug=False)
