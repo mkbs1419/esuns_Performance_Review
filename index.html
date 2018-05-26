@@ -121,24 +121,24 @@
               <td id="scoreSummaryTable_quarter">{quarter}</td>
             </tr>
 
-            <tr>
+            <!-- <tr>
               <th scope="row">合約金額</th>
               <td bind="scoreContractTable_expect">0</td>
-            </tr>
+            </tr> -->
 
             <tr>
-              <th scope="row">預計發放季獎金金額</th>
-              <td bind="scoreSummaryTable_expect">0</td>
+              <th scope="row">預計發放季獎金額</th>
+              <td bind="scoreSummaryTable_expect">資料讀取中...</td>
             </tr>
             <tr>
-              <th scope="row">決定實際發放季獎金金額</th>
+              <th scope="row">實際發放季獎金額</th>
               <td>
                 <input type="text" placeholder="實際發放金額" bind="scoreSummaryTable_actual" />
                 <button type="submit" class="btn btn-outline-info" style="margin-left: 10px;" id="calculate">計算</button>
               </td>
             </tr>
             <tr>
-              <th scope="row">累計至下季發放獎金金額</th>
+              <th scope="row">累計至下季發放獎金額</th>
               <td bind="scoreSummaryTable_accumulation">0</td>
             </tr>
             <tr>

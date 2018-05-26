@@ -61,8 +61,9 @@ $(document).ready(function () {
             $("#form1Done").text("已完成：" + form1Done);
 
             $("#scoreSummaryTable_quarter").text(dataJson.quarter);
-            $("*[bind='scoreContractTable_expect']").text(dataJson.contractValue);
-            $("*[bind='scoreSummaryTable_expect']").text(dataJson.contractValue * bonusRate);
+            // $("*[bind='scoreContractTable_expect']").text(dataJson.contractValue);
+            $("*[bind='scoreSummaryTable_expect']").text(dataJson.exceptValue);
+            // $("*[bind='scoreSummaryTable_expect']").text(dataJson.contractValue * bonusRate);
 
             if (form1ToDo === 0) {
                 $("#form2check1").text("「一般員工考績表」已全部完成！");
