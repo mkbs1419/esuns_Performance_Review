@@ -22,8 +22,9 @@ $(document).ready(function () {
         }
         Obase.push(projectScore);
     }
-    basetotal = base.reduce((a, b) => a + b, 0);
+    basetotal = base.reduce((a, b) => a + b, 0); 
 
+    
 
     // table
     for (let ti = 0; ti < dataJson.testList.length; ti++) {
