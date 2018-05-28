@@ -290,7 +290,7 @@ $(document).ready(function () {
         var selected = $("#inlineForm1Select").val();
         if (selected !== "請選擇...") {
             $('#inlineForm1Select').removeClass('is-invalid');
-            window.location = 'http://' + window.location.hostname + '/PR/form/form1.html?id=' + selected + '&quarter=' + dataJson.quarter + '&projectName=' + dataJson.projectName;
+            window.location = '/PR/form/form1.html?id=' + selected + '&quarter=' + dataJson.quarter + '&projectName=' + dataJson.projectName;
         } else {
             // select show red
             $('#inlineForm1Select').addClass('is-invalid');
@@ -298,7 +298,7 @@ $(document).ready(function () {
     });
 
     $('#form2Go').click(function () {
-        window.location = 'http://' + window.location.hostname + '/PR/form/form2.html?quarter=' + dataJson.quarter + '&projectName=' + dataJson.projectName;
+        window.location = '/PR/form/form2.html?quarter=' + dataJson.quarter + '&projectName=' + dataJson.projectName;
     });
 
 });
