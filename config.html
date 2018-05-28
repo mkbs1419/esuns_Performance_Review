@@ -44,7 +44,7 @@
             <a class="nav-link" href="index.html">Home</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="#">Help</a>
+            <a class="nav-link" href="#">Config</a>
             <span class="sr-only">(current)</span>
           </li>
         </ul>
@@ -70,9 +70,11 @@
 
   <script>
     function cleanFunction() {
-      // localStorage.clear();
+      console.log("cleanFunction()");
+      localStorage.clear();
       sessionStorage.clear();
-      location.reload();
+      // location.reload();
+      window.location = '/PR/login.html';
     }
   </script>
 

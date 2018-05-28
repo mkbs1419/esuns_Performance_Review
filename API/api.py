@@ -79,19 +79,18 @@ class projects(Resource):
         cursor.execute(sql)
 
         result = cursor.fetchone()
-        result["testList"] = result["testList"].split(",")
+        # result["testList"] = result["testList"].split(",")
+
+        cursor.close()
+        conn.close()
 
         if (result):
             print "Access Allow"
-            cursor.close()
-            conn.close()
+            result["testList"] = result["testList"].split(",")
             return [True, result], 201
         else:
             print "Access Denied"
-            cursor.close()
-            conn.close()
             return [False, {"projectName": args["project"]}], 201
-
 
 # index, form1 -- employeeinfo
 class employeeinfo(Resource):
@@ -166,7 +165,7 @@ class form1data(Resource):
 
         # insert or update if exist
         conn, cursor = get_conn()
-        sql = "INSERT INTO `from1` (`_id`, `employeeId`, `projectName`, `quarter`, `reviewDate`, `q1Score`, `q2Score`, `q3Score`, `q4Score`, `q5Score`, `q6Score`, `q7Score`, `q8Score`, `q9Score`, `result`, `description`, `badPerformance`, `note`) VALUES "
+        sql = "INSERT INTO `form1` (`_id`, `employeeId`, `projectName`, `quarter`, `reviewDate`, `q1Score`, `q2Score`, `q3Score`, `q4Score`, `q5Score`, `q6Score`, `q7Score`, `q8Score`, `q9Score`, `result`, `description`, `badPerformance`, `note`) VALUES "
         sql_data = "(\"" + args["unid"] + "\", \"" + employeeId_ + "\", \"" + args["projectName"] + "\", \"" + args["quarter"] + "\", \"" + args["reviewDate"] + "\", "
         sql_data_score = ""
         sql_data_result = ""
@@ -245,7 +244,7 @@ class indexdata(Resource):
 
         conn, cursor = get_conn()
 
-        sql = "SELECT f1._id, f1.employeeId, em.employeeName, f1.result AS form1score, f1.description AS form1description, f2.totalList AS form2ScoreList FROM `from1` AS f1, `form2` AS f2, `employeeinfo` AS em WHERE f1._id = f2._id AND f1.employeeId = em.employeeId AND f1.projectName = '"+args["projectName"]+"' AND f1.quarter = '"+args["quarter"]+"';"
+        sql = "SELECT f1._id, f1.employeeId, em.employeeName, f1.result AS form1score, f1.description AS form1description, f2.totalList AS form2ScoreList FROM `form1` AS f1, `form2` AS f2, `employeeinfo` AS em WHERE f1._id = f2._id AND f1.employeeId = em.employeeId AND f1.projectName = '"+args["projectName"]+"' AND f1.quarter = '"+args["quarter"]+"';"
         cursor.execute(sql)
         result = cursor.fetchall()
 

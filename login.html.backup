@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <form id="loginForm" class="form-signin">
+    <form class="form-signin">
         <div class="text-center mb-4">
             <img class="mb-4" src="vendor/logo.gif" alt="" width="100" height="100">
             <h1 class="h3 mb-3 font-weight-normal">考核登錄系統</h1>
@@ -38,7 +38,7 @@
             <div class="invalid-feedback">密碼錯誤</div>
         </div>
 
-        <input class="btn btn-lg btn-primary btn-block" type="submit" id="loginbtn" value="登入" />
+        <input class="btn btn-lg btn-primary btn-block" type="button" id="loginbtn" value="登入" />
         <p class="mt-5 mb-3 text-muted text-center">&copy; 2018</p>
     </form>
 </body>
@@ -56,7 +56,15 @@
             }
         });
 
-        $("#loginForm").submit(function () {
+        $('#inputPassword').keyup(function (e) {
+            e.preventDefault();
+            if (e.which == 13) {
+                $('#loginbtn').click(loginFunction);
+            }
+        });
+        $('#loginbtn').click(loginFunction);
+
+        function loginFunction() {
             let selected = "";
             let password = "";
 
@@ -84,8 +92,7 @@
             } else {
                 $('#inputPassword').addClass('is-invalid');
             }
-            return false;
-        });
+        }
 
     });
 </script>
