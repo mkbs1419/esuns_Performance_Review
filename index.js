@@ -1,6 +1,7 @@
 // File: index.js 2018-05-27
 $(document).ready(function () {
-    const apiURL = "http://localhost:3000";
+    // const apiURL = "http://localhost:3000";
+    const apiURL = "http://" + window.location.hostname + ":3000";
 
     let isLogin = sessionStorage.projectInfo;
     if (typeof (isLogin) === "undefined") {
@@ -373,8 +374,8 @@ $(document).ready(function () {
 
 });
 
-function cleanFunction() {
-    // localStorage.clear();
-    sessionStorage.clear();
-    location.reload();
-}
+// function cleanFunction() {
+//     // localStorage.clear();
+//     sessionStorage.clear();
+//     location.reload();
+// }

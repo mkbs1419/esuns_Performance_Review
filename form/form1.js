@@ -14,7 +14,8 @@ function getQueryVariable(variable) {
 }
 
 $(document).ready(function () {
-    const apiURL = "http://localhost:3000";
+    // const apiURL = "http://localhost:3000";
+    const apiURL = "http://" + window.location.hostname + ":3000";
 
     let isLogin = sessionStorage.projectInfo;
     if (typeof (isLogin) === "undefined") {
