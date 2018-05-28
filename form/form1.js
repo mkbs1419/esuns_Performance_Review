@@ -162,7 +162,7 @@ $(document).ready(function () {
         })
 
 
-        $("#saveindex").click(function () {
+        $("#sendToSQL").click(function () {
             console.log("送出 - SQL");
 
             let scoreWords = "[";

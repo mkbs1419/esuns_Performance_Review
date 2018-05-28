@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# File: api.py 2018-04-23 for localhost:3000
+# File: api.py 2018-05-27
 from flask import Flask
 from flask_cors import CORS
 from flask_restful import Resource, Api, fields, marshal_with, reqparse
@@ -15,6 +15,17 @@ api = Api(app)
 SERVER_name = 'localhost'
 
 parser = reqparse.RequestParser()
+
+def strtolist(strlist):
+    if isinstance(strlist, list):
+        return strlist
+    else:
+        strlist = strlist.replace("[", "")
+        strlist = strlist.replace("]", "")
+        strlist = strlist.replace("\"", "")
+        strlist = strlist.replace(" ", "")
+        strlist = strlist.split(",")
+        return strtolist(strlist)
 
 
 def json_serial(obj):
@@ -64,7 +75,7 @@ class projects(Resource):
         args = parser.parse_args()
 
         conn, cursor = get_conn()
-        sql = "SELECT projectName, contractValue, quarter, actualMoney, accumulation, fillingPerson, testList FROM `projectinfo` WHERE projectName = \"" + args["project"] + "\" AND password = \"" + args["password"] + "\""
+        sql = "SELECT projectName, exceptValue, quarter, actualMoney, accumulation, fillingPerson, testList FROM `projectinfo` WHERE projectName = \"" + args["project"] + "\" AND password = \"" + args["password"] + "\""
         cursor.execute(sql)
 
         result = cursor.fetchone()
@@ -189,28 +200,6 @@ class form2data(Resource):
 
         unid = args["employeeId"] + args["unid"]
 
-        # // text to list
-        # orderList = args["orderList"]
-        # orderList = orderList.replace("[", "")
-        # orderList = orderList.replace("]", "")
-        # orderList = orderList.replace("\"", "")
-        # orderList = orderList.replace(" ", "")
-        # orderList = orderList.split(",")
-
-        # scoreList = args["scoreList"]
-        # scoreList = scoreList.replace("[", "")
-        # scoreList = scoreList.replace("]", "")
-        # scoreList = scoreList.replace("\"", "")
-        # scoreList = scoreList.replace(" ", "")
-        # scoreList = scoreList.split(",")
-
-        # totalList = args["totalList"]
-        # totalList = totalList.replace("[", "")
-        # totalList = totalList.replace("]", "")
-        # totalList = totalList.replace("\"", "")
-        # totalList = totalList.replace(" ", "")
-        # totalList = totalList.split(",")
-
         # insert or update if exist
         conn, cursor = get_conn()
         sql = "INSERT INTO `form2` (`_id`, `projectName`, `quarter`, `reviewDate`, `employeeId`, `orderList`, `scoreList`, `totalList`) VALUES "
@@ -226,12 +215,60 @@ class form2data(Resource):
         return True
 
 
+# index -- index save
+class indexsave(Resource):
+    def post(self):
+        print "/indexsave POST"
+        parser.add_argument('projectName', type=unicode)
+        parser.add_argument('actualMoney', type=int)
+        parser.add_argument('accumulation', type=int)
+        args = parser.parse_args()
+
+        # update table
+        conn, cursor = get_conn()
+        sql = "UPDATE `projectinfo` SET `actualMoney` = "+str(args["actualMoney"])+", `accumulation` = "+str(args["accumulation"])+" WHERE `projectName` = '"+args["projectName"]+"';"
+        print sql
+        cursor.execute(sql)
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return args
+
+
+# index -- index data
+class indexdata(Resource):
+    def post(self):
+        print "/indexsave POST"
+        parser.add_argument('projectName', type=unicode)
+        parser.add_argument('quarter', type=str)
+        args = parser.parse_args()
+
+        conn, cursor = get_conn()
+
+        sql = "SELECT f1._id, f1.employeeId, em.employeeName, f1.result AS form1score, f1.description AS form1description, f2.totalList AS form2ScoreList FROM `from1` AS f1, `form2` AS f2, `employeeinfo` AS em WHERE f1._id = f2._id AND f1.employeeId = em.employeeId AND f1.projectName = '"+args["projectName"]+"' AND f1.quarter = '"+args["quarter"]+"';"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+
+        for i in range(0, len(result)):
+            result[i]["form2ScoreList"] = strtolist(result[i]["form2ScoreList"])
+            result[i]["form2ScoreList"] = map(int, result[i]["form2ScoreList"])
+            result[i]["form2Score"] = sum(result[i]["form2ScoreList"])/5.0  # num of questions
+        args["resultList"] = result
+
+        cursor.close()
+        conn.close()
+        return args
+
+
 api.add_resource(status, '/')  # API server's status
 ###############################################################################
 api.add_resource(projects, '/projects')
 api.add_resource(employeeinfo, '/employeeinfo/<employeeId_>')
 api.add_resource(form1data, '/form1data/<employeeId_>')
 api.add_resource(form2data, '/form2data')
+api.add_resource(indexsave, '/indexsave')
+api.add_resource(indexdata, '/indexdata')
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=3000, threaded=True, debug=False)

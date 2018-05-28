@@ -1,117 +1,6 @@
-// TODO
-// dataJson.quarter 敘述轉換
+// File: index.js 2018-05-27
 $(document).ready(function () {
     const apiURL = "http://localhost:3000";
-    const bonusRate = 0.25;
-
-    ///////////////////////////////////////////////////
-    var pieChartOption;
-    var scoreChartOption;
-
-    // table data
-    let base = [];
-    let Obase = [];
-    let basetotal = 0;
-    for (let ti = 0; ti < dataJson.testList.length; ti++) {
-        let totalScore = dataJson.testList[ti].form2Score.totalList.reduce((a, b) => a + b, 0);
-        let projectScore = totalScore / dataJson.testList[ti].form2Score.totalList.length;
-        if (dataJson.testList[ti].form1Result[1] == "丙" || dataJson.testList[ti].form1Result[1] == "乙") {
-            base.push(0);
-        } else {
-            base.push(projectScore);
-        }
-        Obase.push(projectScore);
-    }
-    basetotal = base.reduce((a, b) => a + b, 0); 
-
-    
-
-    // table
-    for (let ti = 0; ti < dataJson.testList.length; ti++) {
-        let percentage = parseFloat(((base[ti] / basetotal) * 100).toFixed(2));
-        let value = (percentage / 100 * dataJson.actualMoney).toFixed(0);
-        let pieDataTemp = {};
-        moneyList.push(value);
-        pieDataTemp.value = value;
-        pieDataTemp.name = dataJson.testList[ti].employeeName;
-        pieData.push(pieDataTemp);
-
-        var tr = $('<tr>')
-            .append($('<td>').text(dataJson.testList[ti].employeeName)) // 姓名
-            .append($('<td>').text(dataJson.testList[ti].form1Result[1])) // 績效考核成績
-            .append($('<td>').text(Obase[ti])) // 專案執行考核成績
-            .append($('<td>').text(percentage + '%')) // 獎金發放權重
-            .append($('<td>').text(value)) // 季獎金發放金額
-        $('#indexTable_tbody').append(tr);
-    }
-
-    // init chart
-    $('#scoreChart').attr("style", "height:300px;");
-
-    var pieChart = echarts.init(document.getElementById('pieChart'));
-    var scoreChart = echarts.init(document.getElementById('scoreChart'));
-
-    var pieChartOption = {
-        title: {
-            text: '季獎金發放金額',
-            subtext: dataJson.quarter,
-            x: 'center'
-        },
-        tooltip: {},
-        legend: {
-            orient: 'vertical',
-            left: 'left',
-            data: nameList
-        },
-        series: [{
-            name: '發放獎金',
-            type: 'pie',
-            radius: '55%',
-            center: ['50%', '60%'],
-            data: pieData,
-            itemStyle: {
-                emphasis: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
-            }
-        }]
-    };
-
-    var scoreChartOption = {
-        title: {
-            text: '季獎金發放金額',
-            x: 'center'
-        },
-        tooltip: {},
-        // legend: {
-        //     data:['發放金額']
-        // },
-        xAxis: {},
-        yAxis: {
-            type: 'category',
-            inverse: true,
-            data: nameList
-        },
-        series: [{
-            name: '發放金額',
-            type: 'bar',
-            label: {
-                normal: {
-                    show: true,
-                    // position: "right"
-                }
-            },
-            data: moneyList
-        }]
-    };
-    pieChart.setOption(pieChartOption);
-    scoreChart.setOption(scoreChartOption);
-
-///////////////////////////////////////////////////
-
-
 
     let isLogin = sessionStorage.projectInfo;
     if (typeof (isLogin) === "undefined") {
@@ -123,7 +12,80 @@ $(document).ready(function () {
 
         //讀取login拋轉來的資料
         var dataJson = isLogin[1];
-        console.log(dataJson);
+        console.log("dataJson", dataJson);
+
+        $("#project_title").text(dataJson.projectName + " - 考核登錄系統");
+        $("#project_person").text("評核人員：" + dataJson.fillingPerson);
+
+        ///////////////////////////////////////////////////
+        // var pieChartOption;
+        // var scoreChartOption;
+
+
+
+        // var pieChartOption = {
+        //     title: {
+        //         text: '季獎金發放金額',
+        //         subtext: dataJson.quarter,
+        //         x: 'center'
+        //     },
+        //     tooltip: {},
+        //     legend: {
+        //         orient: 'vertical',
+        //         left: 'left',
+        //         data: nameList
+        //     },
+        //     series: [{
+        //         name: '發放獎金',
+        //         type: 'pie',
+        //         radius: '55%',
+        //         center: ['50%', '60%'],
+        //         data: pieData,
+        //         itemStyle: {
+        //             emphasis: {
+        //                 shadowBlur: 10,
+        //                 shadowOffsetX: 0,
+        //                 shadowColor: 'rgba(0, 0, 0, 0.5)'
+        //             }
+        //         }
+        //     }]
+        // };
+
+        // var scoreChartOption = {
+        //     title: {
+        //         text: '季獎金發放金額',
+        //         x: 'center'
+        //     },
+        //     tooltip: {},
+        //     // legend: {
+        //     //     data:['發放金額']
+        //     // },
+        //     xAxis: {},
+        //     yAxis: {
+        //         type: 'category',
+        //         inverse: true,
+        //         data: nameList
+        //     },
+        //     series: [{
+        //         name: '發放金額',
+        //         type: 'bar',
+        //         label: {
+        //             normal: {
+        //                 show: true,
+        //                 // position: "right"
+        //             }
+        //         },
+        //         data: moneyList
+        //     }]
+        // };
+        // pieChart.setOption(pieChartOption);
+        // scoreChart.setOption(scoreChartOption);
+        // pieChart.hideLoading();
+        // scoreChart.hideLoading();
+        ///////////////////////////////////////////////////
+
+
+
 
         //請求完成明細
         let listWords = "[";
@@ -174,12 +136,172 @@ $(document).ready(function () {
             if (typeof (sessionStorage.projecttable) === "undefined") {
                 $("#scoreSummaryTable_actual").val(dataJson.actualMoney);
                 $("#scoreSummaryTable_accumulation").text(dataJson.accumulation);
+                $("#pieChart").text("如有問題請聯絡：");
             } else {
                 projecttable = JSON.parse(sessionStorage.projecttable);
-                console.log(projecttable);
+                console.log("projecttable", projecttable);
                 $("#scoreSummaryTable_actual").val(projecttable.actualMoney);
                 $("#scoreSummaryTable_accumulation").text(projecttable.accumulation);
+                dataJson.actualMoney = projecttable.actualMoney;
+                dataJson.accumulation = projecttable.accumulation;
             }
+
+            // prepare table data
+            $.post(apiURL + "/indexdata", {
+                projectName: "專案二",
+                quarter: "Q2"
+            }, function (data, status) {
+                console.log("tabledata", data);
+
+
+                if (status == "success" & data.resultList.length == dataJson.testList.length) {
+
+                // init chart
+                $('#scoreChart').attr("style", "height:300px;");
+
+                var pieChart = echarts.init(document.getElementById('pieChart'));
+                var scoreChart = echarts.init(document.getElementById('scoreChart'));
+
+                // pieChart showLoading
+                pieChart.showLoading({
+                    text: '資料取得中...',
+                    textStyle: {
+                        fontSize: 30,
+                        color: '#444'
+                    },
+                    effectOption: {
+                        backgroundColor: 'rgba(0, 0, 0, 0)'
+                    }
+                });
+
+                // scoreChart showLoading
+                scoreChart.showLoading({
+                    text: '資料取得中...',
+                    textStyle: {
+                        fontSize: 30,
+                        color: '#444'
+                    },
+                    effectOption: {
+                        backgroundColor: 'rgba(0, 0, 0, 0)'
+                    }
+                });
+
+                    let nameList = [];
+                    let pieData = [];
+                    let moneyList = [];
+                    let Base = 0;
+
+                    for (let i = 0; i < data.resultList.length; i++) {
+                        if (data.resultList[i].form1score > 75) {
+                            console.log(data.resultList[i].form1score);
+                            Base = Base + data.resultList[i].form2Score;
+                        }
+                    }
+
+                    // table
+                    for (let i = 0; i < data.resultList.length; i++) {
+
+                        let percentage = parseFloat(((data.resultList[i].form2Score / Base) * 100).toFixed(2));
+                        if (data.resultList[i].form1score <= 75) {
+                            percentage = 0;
+                        }
+                        let value = (percentage / 100 * dataJson.actualMoney).toFixed(0);
+
+                        var tr = $('<tr>')
+                            .append($('<td>').text(data.resultList[i].employeeName)) // 姓名
+                            .append($('<td>').text(data.resultList[i].form1description)) // 績效考核成績
+                            .append($('<td>').text(data.resultList[i].form2Score)) // 專案執行考核成績
+                            .append($('<td>').text(percentage + '%')) // 獎金發放權重
+                            .append($('<td>').text(value)) // 季獎金發放金額
+                        $('#indexTable_tbody').append(tr);
+
+                        pieEle = {
+                            name: data.resultList[i].employeeName,
+                            value: value
+                        }
+
+                        nameList.push(data.resultList[i].employeeName);
+                        pieData.push(pieEle);
+                        moneyList.push(value);
+                    }
+
+                    var pieChartOption = {
+                        title: {
+                            text: '季獎金發放金額',
+                            subtext: dataJson.quarter,
+                            x: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b} : {c} 元({d}%)"
+                        },
+                        legend: {
+                            orient: 'vertical',
+                            left: 'left',
+                            data: nameList
+                        },
+                        series: [{
+                            name: '發放獎金',
+                            type: 'pie',
+                            radius: '55%',
+                            center: ['50%', '60%'],
+                            data: pieData,
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }]
+                    };
+
+                    var scoreChartOption = {
+                        title: {
+                            text: '季獎金發放金額',
+                            subtext: dataJson.quarter,
+                            x: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b} : {c} 元"
+                        },
+                        // legend: {
+                        //     data:['發放金額']
+                        // },
+                        xAxis: {},
+                        yAxis: {
+                            type: 'category',
+                            inverse: true,
+                            data: nameList
+                        },
+                        series: [{
+                            name: '發放金額',
+                            type: 'bar',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    // position: "right"
+                                }
+                            },
+                            data: moneyList
+                        }]
+                    };
+                    pieChart.setOption(pieChartOption);
+                    scoreChart.setOption(scoreChartOption);
+                    pieChart.hideLoading();
+                    scoreChart.hideLoading();
+
+
+
+
+                } else {
+                    var tr = $('<tr>')
+                        .append($('<td colspan="5" align="center">').text("尚未完成評核表格"))
+                    $('#indexTable_tbody').append(tr);
+                }
+            });
+
 
 
             if (form1ToDo === 0) {
