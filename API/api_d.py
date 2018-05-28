@@ -259,6 +259,53 @@ class indexdata(Resource):
         return args
 
 
+# from1, form2 -- formtemp
+class formtemp(Resource):
+    def get(self, _id):
+    # def get(self, _id, tableName):
+        print "/formtemp GET"
+        
+        print _id
+        # conn, cursor = get_conn()
+        # sql = "SELECT temp FROM `" + tableName + "` WHERE _id = '" + _id + "';"
+        # cursor.execute(sql)
+        # result = cursor.fetchone()
+
+        # result["arriveDate"] = json_serial(result["arriveDate"])
+        # result["regularDate"] = json_serial(result["regularDate"])
+
+        # cursor.close()
+        # conn.close()
+        return _id
+
+    # def post(self, employeeId_):
+    #     print "/formtemp POST"
+    #     parser.add_argument('testList')
+    #     args = parser.parse_args()
+
+    #     testList = args["testList"]
+    #     testList = testList.replace("[", "")
+    #     testList = testList.replace("]", "")
+    #     testList = testList.replace("\"", "")
+    #     testList = testList.replace(" ", "")
+    #     testList = testList.split(",")
+
+    #     conn, cursor = get_conn()
+    #     sql = "SELECT employeeId, employeeName, form1Status, form2Status FROM `employeeinfo` WHERE employeeId IN ("
+    #     sql_ele = ""
+    #     for ele in testList:
+    #         sql_ele = sql_ele + "\"" + ele + "\","
+    #     sql = sql + sql_ele[:-1] + ")"
+    #     print sql
+    #     cursor.execute(sql)
+    #     result = cursor.fetchall()
+
+    #     cursor.close()
+    #     conn.close()
+
+    #     return result
+
+
 api.add_resource(status, '/')  # API server's status
 ###############################################################################
 api.add_resource(projects, '/projects')
@@ -267,6 +314,8 @@ api.add_resource(form1data, '/form1data/<employeeId_>')
 api.add_resource(form2data, '/form2data')
 api.add_resource(indexsave, '/indexsave')
 api.add_resource(indexdata, '/indexdata')
+# api.add_resource(formtemp, '/formtemp?_id=<_id>&tableName=<tableName>')
+api.add_resource(formtemp, '/formtemp?_id=<_id>')
 
 
 if __name__ == '__main__':

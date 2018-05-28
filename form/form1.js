@@ -154,7 +154,10 @@ $(document).ready(function () {
             dataPackage.complete = formComplete;
 
             console.log(dataPackage);
-            sessionStorage[id] = JSON.stringify(dataPackage)
+            sessionStorage[id] = JSON.stringify(dataPackage);
+
+            console.log("====================");
+            console.log(sessionStorage[id]);
 
             // if 資料完整
             if (formComplete) {
