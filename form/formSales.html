@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Jerry Nie">
+
+  <title>一般員工考績表 | Esuns Performance Review</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <style>
+    body {
+      padding-top: 54px;
+    }
+
+    @media (min-width: 992px) {
+      body {
+        padding-top: 56px;
+      }
+    }
+
+    .qblock {
+      width: 10%;
+      padding-bottom: 0px !important;
+      ;
+    }
+
+    .radioBtnLabel {
+      margin-bottom: 0px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Esuns Performance Review</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <button type="button" class="btn btn-info" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="已存檔"
+            style="margin: 0px 5px 0px 5px;">存檔</button>
+            <button type="button" class="btn btn-success" style="margin: 0px 5px 0px 5px;" id="sendToSQL" disabled>送至資料庫</button>  
+          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#sendOutModal" style="margin: 0px 5px 0px 5px;">清空此表</button>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Modal -->
+  <div class="modal fade" id="sendOutModal" tabindex="-1" role="dialog" aria-labelledby="sendOutModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="sendOutModalLabel">確定清空此表？</h5>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="clearform1()">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Content -->
+  <div class="container border" style="margin-top: 15px; margin-bottom: 15px;">
+    <!-- title -->
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h1 class="mt-4">宗陽工程股份有限公司</h1>
+        <h3>一般員工考績表</h3>
+      </div>
+    </div>
+    <!-- info block -->
+    <div class="row">
+      <div class="col-lg-4">
+        <ul class="list-unstyled">
+          <li id="employeeGroup">事業群：{employeeGroup}</li>
+          <li id="employeeDepartment">部門別：{employeeDepartment}</li>
+          <li id="employeeName">姓名：{employeeName}</li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <ul class="list-unstyled">
+          <li>&nbsp;</li>
+          <li id="employeeTitle">職務名稱：{employeeTitle}</li>
+          <li id="employeeLevel">職等職級：{employeeLevel}</li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <ul class="list-unstyled">
+          <li>
+            <label for="reviewDate">考核日期：</label>
+            <input type="date" id="reviewDate">
+          </li>
+
+          <li id="arriveDate">到職日期：{arriveDate}</li>
+          <li id="regularDate">轉正日期：{regularDate}</li>
+        </ul>
+      </div>
+    </div>
+    <!-- input form block -->
+    <div class="row">
+      <div class="col-lg-12">
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th width="25%">項目</th>
+              <th colspan="5">說明及評分</th>
+              <th width="6%">初核</th>
+              <!-- <th width="6%">總經理</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Q1 START -->
+            <tr>
+              <td>1.工作素質(Quality of work)</br>僅考慮工作的準確性及對組織發生的效用，不考慮工作素質如何？</td>
+              <td class="qblock">
+                <div class="pretty p-default p-curve p-pulse">
+                  <input type="radio" name="radio_q1" value="11">
+                  <div class="state p-primary-o">
+                    <!-- <i class="icon mdi mdi-check"></i> -->
+                    <label> 11</label>
+                  </div>
+                </div>
+                <div class="pretty p-default p-curve p-pulse">
+                  <input type="radio" name="radio_q1" value="12">
+                  <div class="state p-primary-o">
+                    <i class="icon mdi mdi-check"></i>
+                    <label> 12</label>
+                  </div>
+                </div>
+                <p>常常出錯</p>
+              </td>
+              <td class="qblock">
+                <div class="pretty p-default p-curve p-pulse">
+                  <input type="radio" name="radio_q1" value="13">
+                  <div class="state p-primary-o">
+                    <i class="icon mdi mdi-check"></i>
+                    <label> 13</label>
+                  </div>
+                </div>
+                <div class="pretty p-default p-curve p-pulse">
+                  <input type="radio" name="radio_q1" value="14">
+                  <div class="state p-primary-o">
+                    <i class="icon mdi mdi-check"></i>
+                    <label> 14</label>
+                  </div>
+                </div>
+                <div class="pretty p-default p-curve p-pulse">
+                  <input type="radio" name="radio_q1" value="15">
+                  <div class="state p-primary-o">
+                    <i class="icon mdi mdi-check"></i>
+                    <label> 15</label>
+                  </div>
+                </div>
+                <p>時而有錯</p>
+              </td>
+              <td class="qblock">
+                <div class="pretty p-default p-curve p-pulse">
+                  <input type="radio" name="radio_q2" value="16">
+                  <div class="state p-primary-o">
+                    <i class="icon mdi mdi-check"></i>
+                    <label> 16</label>
+                  </div>
+                </div>
+                <div class="pretty p-default p-curve p-pulse">
+                  <input type="radio" name="radio_q1" value="17">
+                  <div class="state p-primary-o">
+                    <i class="icon mdi mdi-check"></i>
+                    <label> 17</label>
+                  </div>
+                </div>
+                <p>一般而言，工作都能確實</p>
+              </td>
+              <td class="qblock">
+                <div class="pretty p-default p-curve p-pulse">
+                  <input type="radio" name="radio_q1" value="18">
+                  <div class="state p-primary-o">
+                    <i class="icon mdi mdi-check"></i>
+                    <label> 18</label>
+                  </div>
+                </div>
+                <div class="pretty p-default p-curve p-pulse">
+                  <input type="radio" name="radio_q1" value="19">
+                  <div class="state p-primary-o">
+                    <i class="icon mdi mdi-check"></i>
+                    <label> 19</label>
+                  </div>
+                </div>
+                <p>幾乎沒錯</p>
+              </td>
+              <td class="qblock">
+                <div class="pretty p-default p-curve p-pulse">
+                  <input type="radio" name="radio_q1" value="20">
+                  <div class="state p-primary-o">
+                    <i class="icon mdi mdi-check"></i>
+                    <label> 20</label>
+                  </div>
+                </div>
+                <p>完全無誤，對組織貢獻極大</p>
+              </td>
+              <td id="q1_score"></td>
+              <!-- <td></td> -->
+            </tr>
+            <!-- Q2 START -->
+            <tr>
+              <td>2.工作數量(Quantity of Work)</br>僅考慮工作速度及完成數量，不考慮工作素質如何？</td>
+              <td class="qblock">
+                <div class="pretty p-default p-curve p-pulse">
+                  <input type="radio" name="radio_q2" value="7">
+                  <div class="state p-primary-o">
+                    <i class="icon mdi mdi-check"></i>
+                    <label> 7</label>
+                  </div>
+                </div>
+                <div class="pretty p-default p-curve p-pulse">
+                  <input type="radio" name="radio_q2" value="8">
+                  <div class="state p-primary-o">
+                    <i class="icon mdi mdi-check"></i>
+                    <label> 8</label>
+                  </div>
+                </div>
+                <p>工作緩慢</p>
+              </td>
+              <td class="qblock">
+                <div class="pretty p-default p-curve p-pulse">
+                  <input type="radio" name="radio_q2" value="9">
+                  <div class="state p-primary-o">
+                    <i class="icon mdi mdi-check"></i>
+                    <label> 9</label>
+                  </div>
+                </div>
+                <div class="pretty p-default p-curve p-pulse">
+                  <input type="radio" name="radio_q2" value="10">
+                  <div class="state p-primary-o">
+                    <i class="icon mdi mdi-check"></i>
+                    <label> 10</label>
+                  </div>
+                </div>
+                <div class="pretty p-default p-curve p-pulse">
+                  <input type="radio" name="radio_q2" value="11">
+                  <div class="state p-primary-o">
+                    <i class="icon mdi mdi-check"></i>
+                    <label> 11</label>
+                  </div>
+                </div>
+                <p>需加催促</p>
+              </td>
+              <td class="qblock">
+                <div class="pretty p-default p-curve p-pulse">
+                  <input type="radio" name="radio_q2" value="12">
+                  <div class="state p-primary-o">
+                    <i class="icon mdi mdi-check"></i>
+                    <label> 12</label>
+                  </div>
+                </div>
+                <div class="pretty p-default p-curve p-pulse">
+                  <input type="radio" name="radio_q2" value="13">
+                  <div class="state p-primary-o">
+                    <i class="icon mdi mdi-check"></i>
+                    <label> 13</label>
+                  </div>
+                </div>
+                <p>達合理工作量</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q2" value="14">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 14</label>
+                      </div>
+                    </div>
+                <p>超越水準</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q2" value="15">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 15</label>
+                      </div>
+                    </div>
+                <p>量多且特別迅速</p>
+              </td>
+              <td id="q2_score"></td>
+              <!-- <td></td> -->
+            </tr>
+            <!-- Q3 START -->
+            <tr>
+              <td>3.工作態度(Attitude)</br>對工作、同事、公司的態度，考慮其工作意願、工作熱忱。</td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q3" value="5">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 5</label>
+                      </div>
+                    </div>
+                <p>工作意願缺乏</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q3" value="6">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 6</label>
+                      </div>
+                    </div>
+                <p>有工作意願但不積極</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q3" value="7">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 7</label>
+                      </div>
+                    </div>
+                    <div class="pretty p-default p-curve p-pulse">
+                        <input type="radio" name="radio_q3" value="8">
+                        <div class="state p-primary-o">
+                          <i class="icon mdi mdi-check"></i>
+                          <label> 8</label>
+                        </div>
+                      </div>
+                <p>正常</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q3" value="9">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 9</label>
+                      </div>
+                    </div>
+                <p>積極進取，主動熱忱</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q3" value="10">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 10</label>
+                      </div>
+                    </div>
+                <p>完全獻身工作，超越常人</p>
+              </td>
+              <td id="q3_score"></td>
+              <!-- <td></td> -->
+            </tr>
+            <!-- Q4 START -->
+            <tr>
+              <td>4.可靠程度(Reliability)</br>對工作負責程度，是否如期完成工作？要不要督促與追詢？</td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q4" value="5">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 5</label>
+                      </div>
+                    </div>
+                <p>必須有人與其密切合作</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q4" value="6">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 6</label>
+                      </div>
+                    </div>
+                <p>有責任感，但必須督促</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q4" value="7">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 7</label>
+                      </div>
+                    </div>
+                    <div class="pretty p-default p-curve p-pulse">
+                        <input type="radio" name="radio_q4" value="8">
+                        <div class="state p-primary-o">
+                          <i class="icon mdi mdi-check"></i>
+                          <label> 8</label>
+                        </div>
+                      </div>
+                <p>可信任，略督促即可</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q4" value="9">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 9</label>
+                      </div>
+                    </div>
+                <p>可獨自負責，僅偶而督促</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q4" value="10">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 10</label>
+                      </div>
+                    </div>
+                <p>完全可賦重任不必任何監督</p>
+              </td>
+              <td id="q4_score"></td>
+              <!-- <td></td> -->
+            </tr>
+            <!-- Q5 START -->
+            <tr>
+              <td>5.工作知識與技能(Job Knowledge)</br>對所擔任工作要求是否熟悉？是否不斷的學習與進修來擴大工作知能？</td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q5" value="5">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 5</label>
+                      </div>
+                    </div>
+                <p>對所任工作需多加研究</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q5" value="6">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 6</label>
+                      </div>
+                    </div>
+                <p>尚須加強工作知能</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q5" value="7">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 7</label>
+                      </div>
+                    </div>
+                    <div class="pretty p-default p-curve p-pulse">
+                        <input type="radio" name="radio_q5" value="8">
+                        <div class="state p-primary-o">
+                          <i class="icon mdi mdi-check"></i>
+                          <label> 8</label>
+                        </div>
+                      </div>
+                <p>具適當的工作知能</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q5" value="9">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 9</label>
+                      </div>
+                    </div>
+                <p>具優良的工作知能</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q5" value="10">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 10</label>
+                      </div>
+                    </div>
+                <p>具特殊優越的工作知能</p>
+              </td>
+              <td id="q5_score"></td>
+              <!-- <td></td> -->
+            </tr>
+            <!-- Q6 START -->
+            <tr>
+              <td>6.合作能力(Cooperation)</br>完成工作須與他人共事、協調、溝通之能力。</td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q6" value="5">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 5</label>
+                      </div>
+                    </div>
+                <p>不合作，不知如何溝通</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q6" value="6">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 6</label>
+                      </div>
+                    </div>
+                <p>應再加強與人合作溝通</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q6" value="7">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 7</label>
+                      </div>
+                    </div>
+                    <div class="pretty p-default p-curve p-pulse">
+                        <input type="radio" name="radio_q6" value="8">
+                        <div class="state p-primary-o">
+                          <i class="icon mdi mdi-check"></i>
+                          <label> 8</label>
+                        </div>
+                      </div>
+                <p>與同事合作良好，保持正常溝通</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q6" value="9">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 9</label>
+                      </div>
+                    </div>
+                <p>很容易與他人合作溝通</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q6" value="10">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 10</label>
+                      </div>
+                    </div>
+                <p>特別擅長與人合作、協調、溝通</p>
+              </td>
+              <td id="q6_score"></td>
+              <!-- <td></td> -->
+            </tr>
+            <!-- Q7 START -->
+            <tr>
+              <td>7.創迼力與進取心(Creative&Initiative)</br>是否常有創意及改進意見，主動積極去推動工作？</td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q7" value="5">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 5</label>
+                      </div>
+                    </div>
+                <p>很少有創見，消極，不想打破現狀來改進</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q7" value="6">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 6</label>
+                      </div>
+                    </div>
+                <p>稍有創見，泰半照章行事</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q7" value="7">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 7</label>
+                      </div>
+                    </div>
+                    <div class="pretty p-default p-curve p-pulse">
+                        <input type="radio" name="radio_q7" value="8">
+                        <div class="state p-primary-o">
+                          <i class="icon mdi mdi-check"></i>
+                          <label> 8</label>
+                        </div>
+                      </div>
+                <p>有創見，能改進自己</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q7" value="9">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 9</label>
+                      </div>
+                    </div>
+                <p>富創見、多智謀，態度積極</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q7" value="10">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 10</label>
+                      </div>
+                    </div>
+                <p>創見多且能規劃並推動革新計劃</p>
+              </td>
+              <td id="q7_score"></td>
+              <!-- <td></td> -->
+            </tr>
+            <!-- Q8 START -->
+            <tr>
+              <td>8.判斷力與適應能力(Judgement&Adaptability)</br>面臨新問題，突發狀況，能否做合理判斷；在缺乏情報與指示下，能否進行工作？</td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q8" value="5">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 5</label>
+                      </div>
+                    </div>
+                <p>對新狀況無所適從，慌亂，常判斷錯誤</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q8" value="6">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 6</label>
+                      </div>
+                    </div>
+                <p>時而判斷錯誤，不太能適應新狀況</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q8" value="7">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 7</label>
+                      </div>
+                    </div>
+                    <div class="pretty p-default p-curve p-pulse">
+                        <input type="radio" name="radio_q8" value="8">
+                        <div class="state p-primary-o">
+                          <i class="icon mdi mdi-check"></i>
+                          <label> 8</label>
+                        </div>
+                      </div>
+                <p>通常判斷正確</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q8" value="9">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 9</label>
+                      </div>
+                    </div>
+                <p>判斷準確性在水準之上，很能適應新狀況</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q8" value="10">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 10</label>
+                      </div>
+                    </div>
+                <p>判斷特別正確，對突發狀況應付自如</p>
+              </td>
+              <td id="q8_score"></td>
+              <!-- <td></td> -->
+            </tr>
+            <!-- Q9 START -->
+            <tr>
+              <td>9.品性(Personal Characteristics)</br>是否誠實、勤勉、廉潔、耐勞等等？</td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q9" value="1">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 1</label>
+                      </div>
+                    </div>
+                <p>待改進</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q9" value="2">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 2</label>
+                      </div>
+                    </div>
+                <p>可</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q9" value="3">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 3</label>
+                      </div>
+                    </div>
+                <p>良好</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q9" value="4">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 4</label>
+                      </div>
+                    </div>
+                <p>優越</p>
+              </td>
+              <td class="qblock">
+                  <div class="pretty p-default p-curve p-pulse">
+                      <input type="radio" name="radio_q9" value="5">
+                      <div class="state p-primary-o">
+                        <i class="icon mdi mdi-check"></i>
+                        <label> 5</label>
+                      </div>
+                    </div>
+                <p>足為楷模</p>
+              </td>
+              <td id="q9_score"></td>
+              <!-- <td></td> -->
+            </tr>
+            <!-- score -->
+            <tr class="qblock">
+              <!-- table-danger -->
+              <td rowspan="2">凡考績優等以上請列舉事實</td>
+              <td>減2級</td>
+              <td>減1級</td>
+              <td>不加減</td>
+              <td>加1級</td>
+              <td>加2級</td>
+              <td rowspan="2"></td>
+              <!-- <td rowspan="2"></td> -->
+            </tr>
+            <tr class="qblock">
+              <td>60以下(丙)</td>
+              <td>60~75(乙)</td>
+              <td>76~89(甲)</td>
+              <td>90~95(優)</td>
+              <td>96~100(特優)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- foot -->
+
+    </div>
+
+    <!-- foot -->
+    <div class="row" style="margin-bottom: 15px;">
+      <div class="col-lg-2">
+        <p>考績統計：</p>
+        <p>考績列入丙等人員：</p>
+      </div>
+      <div class="col-lg-4">
+        <p class="h4" id="totalScore">存檔後顯示</p>
+        <div class="custom-control custom-radio">
+            <input type="radio" id="bad_performance0" name="bad_performance" class="custom-control-input" value="none">
+            <label class="custom-control-label" for="bad_performance0">0.無</label>
+          </div>
+        <div class="custom-control custom-radio">
+          <input type="radio" id="bad_performance1" name="bad_performance" class="custom-control-input" value="layOff">
+          <label class="custom-control-label" for="bad_performance1">1.建議予以資遣</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input type="radio" id="bad_performance2" name="bad_performance" class="custom-control-input" value="reReview">
+          <label class="custom-control-label" for="bad_performance2">2.下次再予考核，考核日期：</label>
+          <input type="date" id="bad_performance2_date">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <form>備註：(對該員另有評語，請載明於此。)
+          <textarea class="form-control" id="FormControlTextarea" rows="4"></textarea>
+        </form>
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="../vendor/jquery/jquery.min.js"></script>
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="formSales.js"></script>
+
+</body>
+
+
+</html>
