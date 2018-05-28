@@ -13,80 +13,10 @@ $(document).ready(function () {
 
         //讀取login拋轉來的資料
         var dataJson = isLogin[1];
-        console.log("dataJson", dataJson);
+        // console.log("dataJson", dataJson);
 
         $("#project_title").text(dataJson.projectName + " - 考核登錄系統");
         $("#project_person").text("評核人員：" + dataJson.fillingPerson);
-
-        ///////////////////////////////////////////////////
-        // var pieChartOption;
-        // var scoreChartOption;
-
-
-
-        // var pieChartOption = {
-        //     title: {
-        //         text: '季獎金發放金額',
-        //         subtext: dataJson.quarter,
-        //         x: 'center'
-        //     },
-        //     tooltip: {},
-        //     legend: {
-        //         orient: 'vertical',
-        //         left: 'left',
-        //         data: nameList
-        //     },
-        //     series: [{
-        //         name: '發放獎金',
-        //         type: 'pie',
-        //         radius: '55%',
-        //         center: ['50%', '60%'],
-        //         data: pieData,
-        //         itemStyle: {
-        //             emphasis: {
-        //                 shadowBlur: 10,
-        //                 shadowOffsetX: 0,
-        //                 shadowColor: 'rgba(0, 0, 0, 0.5)'
-        //             }
-        //         }
-        //     }]
-        // };
-
-        // var scoreChartOption = {
-        //     title: {
-        //         text: '季獎金發放金額',
-        //         x: 'center'
-        //     },
-        //     tooltip: {},
-        //     // legend: {
-        //     //     data:['發放金額']
-        //     // },
-        //     xAxis: {},
-        //     yAxis: {
-        //         type: 'category',
-        //         inverse: true,
-        //         data: nameList
-        //     },
-        //     series: [{
-        //         name: '發放金額',
-        //         type: 'bar',
-        //         label: {
-        //             normal: {
-        //                 show: true,
-        //                 // position: "right"
-        //             }
-        //         },
-        //         data: moneyList
-        //     }]
-        // };
-        // pieChart.setOption(pieChartOption);
-        // scoreChart.setOption(scoreChartOption);
-        // pieChart.hideLoading();
-        // scoreChart.hideLoading();
-        ///////////////////////////////////////////////////
-
-
-
 
         //請求完成明細
         let listWords = "[";
@@ -140,7 +70,7 @@ $(document).ready(function () {
                 $("#pieChart").text("如有問題請聯絡：");
             } else {
                 projecttable = JSON.parse(sessionStorage.projecttable);
-                console.log("projecttable", projecttable);
+                // console.log("projecttable", projecttable);
                 $("#scoreSummaryTable_actual").val(projecttable.actualMoney);
                 $("#scoreSummaryTable_accumulation").text(projecttable.accumulation);
                 dataJson.actualMoney = projecttable.actualMoney;
@@ -149,10 +79,10 @@ $(document).ready(function () {
 
             // prepare table data
             $.post(apiURL + "/indexdata", {
-                projectName: "專案二",
-                quarter: "Q2"
+                projectName: dataJson.projectName,
+                quarter: dataJson.quarter
             }, function (data, status) {
-                console.log("tabledata", data);
+                // console.log("tabledata", data);
 
 
                 if (status == "success" & data.resultList.length == dataJson.testList.length) {
@@ -194,7 +124,6 @@ $(document).ready(function () {
 
                     for (let i = 0; i < data.resultList.length; i++) {
                         if (data.resultList[i].form1score > 75) {
-                            console.log(data.resultList[i].form1score);
                             Base = Base + data.resultList[i].form2Score;
                         }
                     }
@@ -332,7 +261,7 @@ $(document).ready(function () {
         });
 
         $("#sendToSQL").click(function () {
-            console.log("送出 - SQL");
+            // console.log("送出 - SQL");
 
             let accumulationMoney = $("#scoreSummaryTable_actual").val();
             let accumulation = $("#scoreSummaryTable_accumulation").text();
